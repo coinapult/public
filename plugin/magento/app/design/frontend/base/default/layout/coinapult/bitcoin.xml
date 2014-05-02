@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Copyright 2013 Coinapult
+ *
+ *  This file is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+
+ *  This file is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Author: Ira Miller (ira@coinapult.com)
+ */
+-->
+<layout version="0.1.0">
+    <checkout_onepage_success>
+        <reference name="content">
+            <remove name="checkout.success" />
+            <block type="bitcoin/checkout_onepage_success" name="checkout.success.bitcoin" template="coinapult/checkout/success.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+    <sales_order_view>
+        <reference name="my.account.wrapper">
+            <remove name="sales.order.info" />
+            <remove name="sales.order.view" />
+            <block type="sales/order_info" name="sales.order.info.bitcoin" template="coinapult/sales/order/info.phtml"/>
+            <block type="sales/order_view" name="sales.order.view.bitcoin">
+                <block type="sales/order_items" name="order_items" template="sales/order/items.phtml">
+                    <action method="addItemRender"><type>default</type><block>sales/order_item_renderer_default</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>sales/order_item_renderer_grouped</block><template>sales/order/items/renderer/default.phtml</template></action>
+                    <block type="sales/order_totals" name="order_totals" template="sales/order/totals.phtml">
+                        <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
+                        <action method="setValueProperties"><value>class="last a-right"</value></action>
+                        <block type="tax/sales_order_tax" name="tax" template="tax/order/tax.phtml" />
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </sales_order_view>
+
+    <sales_email_order_bitcoin>
+        <block type="sales/order_email_bitcoin" name="bitcoin" template="email/order/bitcoin.phtml" />
+    </sales_email_order_bitcoin>
+</layout>

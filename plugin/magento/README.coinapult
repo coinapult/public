@@ -1,0 +1,19 @@
+Coinapult Bitcoin extension
+===========================
+
+Installation instructions:
+
+1. Upload the contents of this directory to the corresponding directories
+   in your store. Usually, this module is distributed as an archive, which
+   can simply be extracted in the base directory of Magento.
+
+2. Visit https://coinapult.com/ (free signup required), and create API keys.
+
+3. Navigate to System->Configuration, then Payment Methods, in the right menu.
+   Open the Bitcoin tab and enter your Coinapult API Key and Secret.
+   You may need to clear the store cache before Coinapult shows up.
+
+4. Make sure "Enabled" is "Yes", and save.
+
+Enjoy!
+

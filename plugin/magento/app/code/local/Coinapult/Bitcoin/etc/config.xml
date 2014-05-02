@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Copyright 2013,2014 Coinapult
+ *
+ *  This file is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+
+ *  This file is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Ira Miller (ira@coinapult.com)
+ *          Guilherme Polo (gp@coinapult.com)
+ */
+-->
+<config>
+    <modules>
+        <Coinapult_Bitcoin>
+            <version>0.2</version>
+        </Coinapult_Bitcoin>
+    </modules>
+    <global>
+        <models>
+            <bitcoin>
+                <class>Coinapult_Bitcoin_Model</class>
+            </bitcoin>
+        </models>
+        <helpers>
+            <bitcoin>
+                <class>Coinapult_Bitcoin_Helper</class>
+            </bitcoin>
+        </helpers>
+        <resources>
+            <bitcoin_setup>
+                <setup>
+                    <module>Coinapult_Bitcoin</module>
+                </setup>
+            </bitcoin_setup>
+        </resources>
+        <blocks>
+            <bitcoin>
+                <class>Coinapult_Bitcoin_Block</class>
+            </bitcoin>
+        </blocks>
+    </global>
+    <frontend>
+        <routers>
+            <bitcoin>
+                <use>standard</use>
+                <args>
+                    <module>Coinapult_Bitcoin</module>
+                    <frontName>bitcoin</frontName>
+                </args>
+            </bitcoin>
+        </routers>
+        <layout>
+            <updates>
+                <bitcoin>
+                    <file>coinapult/bitcoin.xml</file>
+                </bitcoin>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Coinapult_Bitcoin>
+                    <files>
+                        <default>Coinapult_Bitcoin.csv</default>
+                    </files>
+                </Coinapult_Bitcoin>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <payment>
+            <bitcoin>
+                <active>1</active>
+                <title>Bitcoin</title>
+                <model>bitcoin/payment_method_bitcoin</model>
+                <order_status>pending</order_status>
+                <coinapult_key></coinapult_key>
+                <coinapult_secret></coinapult_secret>
+                <sort_order>1</sort_order>
+                <group>offline</group>
+            </bitcoin>
+        </payment>
+    </default>    
+</config>
