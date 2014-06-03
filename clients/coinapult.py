@@ -93,10 +93,14 @@ class CoinapultClient():
         if sign:
             values['timestamp'] = int(time.time())
             values['nonce'] = createNonce(20)
+            values['endpoint'] = url[4:] if url.startswith('/api') else url
             headers['cpt-key'] = self.key
-            headers['cpt-hmac'] = generateHmac(values, self.secret)
+            signdata = base64.b64encode(json.dumps(values))
+            headers['cpt-hmac'] = generateHmac(signdata, self.secret)
+            data = urllib.urlencode({'data': signdata})
+        else:
+            data = urllib.urlencode(values)
 
-        data = urllib.urlencode(values)
         if post:
             req = urllib2.Request(self.baseURL + str(url), data, headers=headers)
         else:
@@ -125,6 +129,7 @@ class CoinapultClient():
         headers = {}
         if not newAccount:
             values['nonce'] = createNonce(20)
+            values['endpoint'] = url[4:] if url.startswith('/api') else url
             headers['cpt-ecc-pub'] = self.ecc_pub_hash
         else:
             headers['cpt-ecc-new'] = base64.b64encode(self.ecc_pub_pem)
@@ -462,17 +467,9 @@ def verifyECCsign(signstr, origdata, pubkey):
     return pubkey.verify(sign, origdata, sha256)
 
 
-def generateHmac(message, secret, verbose=False):
-    """Encodes message as compact JSON (no whitespace)
-    Then generate an SHA512 hashed HMAC of the message, using supplied key
-    Returns HMAC"""
-    formattedMess = {}
-    for k in message:
-        formattedMess[k] = str(message[k])
-    jMessage = json.dumps(formattedMess, sort_keys=True, separators=(',', ':'))
-    if verbose:
-        print "Original message: %r\nMessage for HMAC: %r" % (message, jMessage)
-    return hmac.new(str(secret), jMessage, sha512).hexdigest()
+def generateHmac(message, secret):
+    """Generate the HMAC-SHA512 of a given message using supplied key."""
+    return hmac.new(secret, message, sha512).hexdigest()
 
 
 def createNonce(length=20):

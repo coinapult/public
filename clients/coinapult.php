@@ -29,10 +29,15 @@ class Coinapult
     if ($sign) {
       $params['nonce'] = gen_nonce();
       $params['timestamp'] = (string)time();
+      $params['endpoint'] = '/' . $method;
       $headers[] = 'cpt-key: ' . $this->_api_key;
-      $headers[] = 'cpt-hmac: ' . sign_params($params, $this->_api_secret);
+      $signdata = base64_encode(json_encode($params));
+      $headers[] = 'cpt-hmac: ' . hash_hmac("sha512", $signdata, $this->_api_secret);
+      $data = array("data" => $signdata);
+      $params_str = http_build_query($data, '', '&');
+    } else {
+      $params_str = http_build_query($params, '', '&');
     }
-    $params_str = http_build_query($params, '', '&');
 
     $handle = curl_init();
     if (Coinapult::DEBUG) {
@@ -166,14 +171,14 @@ class Coinapult
 
 
   /* Helpers. */
-  public function authenticate_callback($recv_key, $recv_hmac, $recv_params) {
+  public function authenticate_callback($recv_key, $recv_hmac, $recv_data) {
     $res = array();
     $res['auth'] = FALSE;
     $res['hmac'] = '';
     if (!(strcmp($recv_key, $this->_api_key))) {
       /* API key matches. */
-      $res['hmac'] = sign_params($recv_params, $this->_api_secret);
-      if (!(strcmp($res['hmac'], $recv_hmac))) {
+      $res['hmac'] = hash_hmac("sha512", $recv_data, $this->_api_secret);
+      if (!(strcasecmp($res['hmac'], $recv_hmac))) {
         /* Received HMAC matches. */
         $res['auth'] = TRUE;
       }
@@ -184,16 +189,7 @@ class Coinapult
 } /* Coinapult class. */
 
 
-/* Auxiliary functions for sending signed requests to Coinapult. */
-function sign_params($params, $seckey) {
-  ksort($params); /* Order by keys. */
-  /* JSON_UNESCAPED_SLASHES requires PHP 5.4+ */
-  //$json_params = json_encode($params, JSON_UNESCAPED_SLASHES);
-  $json_params = str_replace('\\/', '/', json_encode($params));
-  $sign = hash_hmac("sha512", $json_params, $seckey);
-  return $sign;
-}
-
+/* Auxiliary function for sending signed requests to Coinapult. */
 function gen_nonce($length=22) {
   $b58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
   $nonce = '';
