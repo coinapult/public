@@ -19,16 +19,21 @@ try:
 except ImportError:
     print "authentication through ECC not available"
 
+__version__ = "2.02"
+
+
 ECC_COINAPULT_PUB = """\
 -----BEGIN PUBLIC KEY-----
-MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEhXHKa4ZXjEgSGEskEZdcgrx8Ye9qGHte
-RlkdhZwHU8xVGwJ08GMFcZwJoX5RVL2igLPgXjk6Un8nyqrGztyD5Q==
+MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEWp9wd4EuLhIZNaoUgZxQztSjrbqgTT0w
+LBq8RwigNE6nOOXFEoGCjGfekugjrHWHUi8ms7bcfrowpaJKqMfZXg==
 -----END PUBLIC KEY-----
 """
 ECC_COINAPULT_PUBKEY = None
 if ecdsa:
     ECC_COINAPULT_PUBKEY = ecdsa.VerifyingKey.from_pem(ECC_COINAPULT_PUB)
 ECC_CURVE = 'secp256k1'
+
+TERMS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'TERMS.txt')
 
 
 class CoinapultClient():
@@ -183,8 +188,30 @@ class CoinapultClient():
         if 'success' in result:
             if result['success'] != sha256(pub_pem).hexdigest():
                 raise CoinapultErrorECC('Unexpected public key')
+            terms = open(TERMS).read()
+            if result['terms'] != sha256(terms).hexdigest():
+                raise CoinapultErrorECC('Terms of service is out-of-date')
+
             if changeAuthMethod:
                 self.authmethod = 'ecc'
+
+            print ("Please read the terms of service in TERMS.txt before "
+                   "proceeding with the account creation. %s" % result['info'])
+
+        return result
+
+    def activateAccount(self, agree, pubhash=None):
+        """
+        Decide whether you agree or not to the terms sent when the
+        account was created by using ECC.
+
+        :param bool agree:
+        :rtype dict:
+        """
+        url = '/api/account/activate'
+        pubhash = pubhash or self.ecc_pub_hash
+        values = {'agree': agree, 'hash': pubhash}
+        result = self._receiveECC(self._sendECC(url, values, newAccount=True))
         return result
 
     def receive(self, amount=0, outAmount=0, currency='BTC', outCurrency=None,
@@ -337,8 +364,8 @@ class CoinapultClient():
         else:
             raise CoinapultError("unknown response from Coinapult")
 
-    def unlock(self, amount, address, outAmount=0, currency='USD',
-               callback=None, **kwargs):
+    def unlock(self, amount, address=None, outAmount=0, currency='USD',
+               callback=None, acceptNow=False, **kwargs):
         """Unlock a certain amount in a given currency to get bitcoins back."""
         url = '/api/t/unlock/'
 
@@ -346,14 +373,14 @@ class CoinapultClient():
         try:
             if amount:
                 gotInAmount = True
-                if amount != 'all' and float(str(amount)) <= 0:
+                if float(str(amount)) <= 0:
                     raise CoinapultError("amount must be positive")
             if outAmount:
                 gotOutAmount = True
-                if outAmount != 'all' and float(str(outAmount)) <= 0:
+                if float(str(outAmount)) <= 0:
                     raise CoinapultError("outAmount must be positive")
         except ValueError:
-            raise CoinapultError("amount must be 'all' or a number")
+            raise CoinapultError("amount must be a number")
 
         if not gotInAmount and not gotOutAmount:
             raise CoinapultError("no amount specified")
@@ -361,15 +388,15 @@ class CoinapultClient():
             raise CoinapultError("specify either the input amount or "
                                  "the output amount")
 
-        values = {}
+        values = {'currency': currency, 'acceptNow': acceptNow}
         if gotInAmount:
             values['amount'] = amount
         if gotOutAmount:
             values['outAmount'] = outAmount
         if callback:
             values['callback'] = callback
-        values['currency'] = currency
-        values['address'] = address
+        if address:
+            values['address'] = address
 
         resp = self.sendToCoinapult(url, values, sign=True)
         if 'transaction_id' in resp:
@@ -377,7 +404,18 @@ class CoinapultClient():
         else:
             raise CoinapultError("unknown response from Coinapult")
 
-    def getTicker(self, begin=None, end=None, market=None, **kwargs):
+    def unlockConfirm(self, transaction_id):
+        """Accept an Unlock operation after verifying its quote."""
+        url = '/api/t/unlock/confirm'
+
+        values = {'transaction_id': transaction_id}
+        resp = self.sendToCoinapult(url, values, sign=True)
+        if 'transaction_id' in resp:
+            return resp
+        else:
+            raise CoinapultError("unknown response from Coinapult")
+
+    def getTicker(self, begin=None, end=None, market=None, filter=None, **kwargs):
         """Get exchange rates."""
         url = '/api/ticker/'
 
@@ -388,6 +426,8 @@ class CoinapultClient():
             values['end'] = end
         if market is not None:
             values['market'] = market
+        if filter is not None:
+            values['filter'] = filter
 
         return self.sendToCoinapult(url, values, post=False)
 

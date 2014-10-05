@@ -1,0 +1,302 @@
+'''TERMS OF SERVICE'''
+
+Please review the terms described herein carefully. Your use of Coinapult.com is contingent on your acceptance of these terms and all the terms and policies incorporated herein. You cannot use Coinapult.com if you do not agree to these terms, and your use and participation means you agree and accept these terms and conditions. These terms are void where prohibited by law, and the right to access and use Coinapult.com is revoked in any such jurisdiction.
+
+These terms of use (the “Terms”) apply solely to your access to, and use of the website owned and kept by Numeraire Ltd. (hereinafter “Coinapult”) Coinapult.com website, Coinapult' API and SMS services, Locks, and any other applications and/or services offered by Coinapult as part of the Coinapult.com experience (the “Services”). You hereby represent and warrant that you are able to accept these Terms.
+
+Please be advised that these Terms contain provisions that govern how claims you and we have against each other are resolved (see LIMITATION OF LIABILITY and DISPUTE RESOLUTION provisions below). It also contains an agreement to arbitrate, which will, with limited exceptions, require you to submit claims you have against us to binding and final arbitration unless you choose to opt-out of the agreement to arbitrate (see DISPUTE RESOLUTION below). You will only be permitted to pursue claims against us on an individual basis, not as a plaintiff or class member in any class or representative action or proceeding and you will only be permitted to seek relief (including monetary, injunctive, and declaratory relief) on an individual basis. PLEASE READ THIS DOCUMENT CAREFULLY. IT IS AN AGREEMENT AND CONTAINS VERY IMPORTANT INFORMATION ABOUT THE TERMS OF OUR SERVICES. IF YOU DO NOT AGREE WITH THESE TERMS, DO NOT USE OUR SERVICES. By using our Services, you accept and are bound by the terms and conditions below.
+
+Coinapult reserves the right to change, amend, modify, supplement, rescind or discharge any and all of these terms at any time at our sole discretion. For material changes and if there is an email address associated to your account, we will take reasonable steps to notify you. You agree that any electronic notices, agreements, disclosures or other communications will satisfy any legal communication requirements, including any requirements that such notices be in writing and will be deemed to be given and received on the day we send them. However, we recommend that you re-visit our website regularly to learn of any changes to these Terms of Service. These changes will be effective immediately upon notice to you by email or posting at [https://coinapult.com/terms https://coinapult.com/terms]. Continued use of Services after changes or modifications to this Terms constitutes your acceptance of such changes and modifications with or without notice or if you do not agree to the changes or modifications, you must stop using the Services.
+
+'''THE SERVICE'''
+
+Coinapult shall provide two main services: (1) Bitcoin wallet services, and (2) the advanced wallet service Locks in accordance with the terms set forth below.
+
+'''WALLET'''
+
+'''Regular Wallet'''
+
+Coinapult will allow you to create a Bitcoin wallet within its system solely by accessing its website and clicking in the link referencing the creation of a wallet. This wallet will not have any protection whatsoever and is given to you as a way to quickly set up a Bitcoin wallet and get a feel of Coinapult's Services.
+
+BEFORE UPGRADING YOUR WALLET, THE WALLET AND ALL RELATED SERVICES ARE PROVIDED BY COINAPULT ON AN "AS IS" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION WARRANTIES OF TITLE, NONINFRINGEMENT, OR IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. COINAPULT DOES NOT WARRANT THAT ANY INFORMATION IS COMPLETE OR ACCURATE, THAT THE SERVICES WILL BE UNINTERRUPTED OR ERROR FREE OR THAT ANY INFORMATION IS FREE OF VIRUSES AND/OR ROGUE OR MALICIOUS PROGRAMMING.
+
+UNDER NO CIRCUMSTANCES, INCLUDING NEGLIGENCE, SHALL COINAPULT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE OR CONSEQUENTIAL DAMAGES THAT MAY RESULT FROM THE USE OR INABILITY TO USE THE SERVICES, INCLUDING WITHOUT LIMITATION USE OF OR RELIANCE ON INFORMATION AVAILABLE ON THE SERVICES, INTERRUPTIONS, ERRORS, DEFECTS, MISTAKES, OMISSIONS, DELETIONS OF FILES, DELAYS IN OPERATION OR TRANSMISSION, NONDELIVERY OF INFORMATION, DISCLOSURE OF COMMUNICATIONS, OR ANY OTHER FAILURE OF PERFORMANCE.
+
+'''Upgraded Wallet'''
+
+You may upgrade your wallet and associate an e-mail address and password to protect your Bitcoins. All other conditions indicated in these Terms shall apply to your Upgraded wallet.
+
+'''Shared Wallet'''
+
+Coinapult’s wallets are shared or commingled wallets. This means that Coinapult shall be free to take all necessary and appropriate measures to protect your Bitcoins within our system.
+
+'''No “Pooling” of Funds'''
+
+By accepting these Terms and by using our Services, you acknowledge that you must create a separate account for each one of your Customers and are forbidden to commingle your Customer's funds with your own or with any other Customer's funds. Furthermore, individual users are forbidden to share accounts. If account information is exposed and allowed to use by another person we reserve the right to suspend or cancel the Services. 
+
+'''Exceptional Suspension of Services'''
+
+Coinapult reserves the right to temporarily halt your ability of accessing your Bitcoin wallet due to technical difficulties or market liquidity issues. By accepting these Terms and by using our Services, you hereby waive all claims and damages arising out the inability to access your wallet for the duration of the technical difficulties.
+
+'''LOCKS'''
+
+Locks is an advanced wallet service that allows you to “lock” the value of your bitcoins for the value of an underlying asset or currency offered by our system at any given moment by providing the right for you to receive a certain amount of bitcoins at a future date that corresponds to the value of the underlying asset or currency chosen.
+
+'''Locking your Bitcoins'''
+
+You may choose to “lock” a certain amount of bitcoins in accordance with these Terms (the “Fixed Bitcoins”). When you “lock” your bitcoins, you are converting your Fixed Bitcoins into the right to receive a future amount of bitcoins based upon a future offered rate. We do not offer exchange services, and you are only entitled to receive bitcoins from us as set forth in these Terms.
+
+'''Locking Quote'''
+
+Before “locking” your Fixed Bitcoins, you will obtain a quote of the locking value of the Fixed Bitcoins corresponding to the value assigned by our system to an underlying asset or currency. Coinapult will communicate a time window to accept the quote for locking your Fixed Bitcoins into Variable Bitcoins.
+
+'''Actual Locking'''
+
+After having received a locking value for a certain amount of Fixed Bitcoins, you may accept the quote. After your acceptance of the quote described above, subject to these Terms, your Fixed Bitcoins will be converted into the right to receive a future amount of variable bitcoins corresponding to the quoted underlying asset or currency value (the “Variable Bitcoins”). By accepting the quote, you are further authorizing Coinapult to display a Variable Bitcoin balance in your wallet corresponding to the underlying asset value of your Fixed Bitcoins at the time of the lock.
+
+'''Confirmations from the Bitcoin Network'''
+
+After accepting the lock, the system will display a message indicating that your lock is being confirmed. Until such lock is confirmed, it is not a binding commitment. You will not be able to unlock your Variable Bitcoin balance until our system receives at least two confirmations from the Bitcoin network, and we accept and display a confirmation. NO ACCEPTED ORDER OR ANY PART THEREOF MAY BE RESCHEDULED OR CANCELLED WITHOUT OUR PRIOR WRITTEN CONSENT.
+
+'''Locking Limits'''
+
+Your ability to lock bitcoins is subject to limits we establish from time to time. You generally will be able to quote and lock a maximum of USD 3,000.00 worth of Fixed Bitcoins at a time. In addition, you will not generally be able to lock additional Bitcoin if such lock would cause you to exceed a maximum of USD 25,000.00 worth of Variable Bitcoins per underlying asset or currency. 
+
+'''Unlocking Your Bitcoins'''
+
+You can choose to “unlock” your Variable Bitcoins by following two consecutive steps: (1) obtaining a quote of the unlocking price offered by Coinapult, and (2) accepting the quote for unlocking your Variable Bitcoins. When you “unlock” your bitcoins, subject to these Terms, you will be entitled to receive bitcoins in your wallet based upon the offered rate. We do not offer exchange services, and you are only entitled to receive bitcoins from us as set forth in these Terms.
+
+'''Unlocking Quote'''
+
+Before “unlocking” your Variable Bitcoins, you must obtain a quote of the unlocking value of the Variable Bitcoins. Coinapult will communicate a time window to accept the quote for unlocking your Variable Bitcoins into Fixed Bitcoins. This quote is subject to the terms set forth in these Terms.
+
+'''Actual Unlocking'''
+
+After your acceptance of the quote described above, subject to these Terms, your Variable Bitcoins will be converted into a Fixed Bitcoin balance. By accepting the unlock, you are authorizing Coinapult to display the Fixed Bitcoin balance in your to your wallet, thus ending the lock. NO ACCEPTED ORDER OR ANY PART THEREOF MAY BE RESCHEDULED OR CANCELLED WITHOUT OUR PRIOR WRITTEN CONSENT.
+
+'''Coinapult's Liquidity'''
+
+Coinapult warrants that it, together with its suppliers, will at all times hold liquid assets equivalent to the fiat currency value of all confirmed Variable Bitcoins.
+
+'''No Spending or Transfer of Variable Bitcoin'''
+
+By accepting the current Terms and by using our Services, you acknowledge that you will not be able to spend your Variable Bitcoin balance while it is locked to a specific underlying asset or currency value. You hereby acknowledge that the system will not allow you to send or transfer in any way the Variable Bitcoin balance to any other Bitcoin address or person without unlocking your Variable Bitcoins first.
+
+'''Exceptional Suspension of Services'''
+
+Coinapult reserves the right to temporarily halt your ability of locking Fixed Bitcoin or unlocking Variable Bitcoin due to technical difficulties or market liquidity issues. By accepting these Terms and by using our Services, you hereby waive all claims and damages arising out the inability to lock your Fixed Bitcoin into Variable Bitcoins or unlock your Variable Bitcoins into Fixed Bitcoins for the duration of the technical difficulties or market liquidity issues.
+
+'''USER INTERFACES'''
+
+For your benefit, Coinapult may provide the Services through one or more different user interfaces. These may include, without limitation, e-mail, SMS, web, mobile applications, API. Your use of the services through any of these user interfaces shall be governed by these Terms. There may be special provisions applicable to specific user interfaces.
+
+'''USE OF THE SERVICES AND CONTENT'''
+
+'''Eligibility to Use the Services'''
+
+You must be 18 years or older to access or make use of the Services. The Services are not targeted to, or intended to be used by, anyone under the age of 18.
+
+To use the Services you must comply with these Terms. You are responsible for maintaining the security of your bitcoin wallet and any device that you utilize in connection with the Services, and ensuring that no unauthorized person has access to your bitcoin wallet or any device that you utilize in connection with the Services.
+
+If you have previously been prohibited from using the Services than you may not access or use the Services, and by using the Services you represent and warrant that you haven't been previously prohibited from using the Services.
+
+'''Privacy'''
+
+Your privacy is important to us. Please carefully review our privacy policy at [https://coinapult.com/privacypolicy https://coinapult.com/privacypolicy]. Our privacy policy details the way we collect, use and disclose information about you.
+
+'''Copyright and Limited License'''
+
+Unless otherwise indicated, the Services and all content and other materials in the Services, including, without limitation, any Coinapult or Locks trademarks and/or logo, and all designs, text, graphics, pictures, information, data, software, sound files, other files and the selection and arrangement thereof (collectively, the “Coinapult Content”) are the proprietary property of Coinapult or its sponsors, or licensors and are protected by U.S. and international copyright and/or other intellectual property laws.
+
+Subject to these Terms, Coinapult grants you a limited, non-exclusive, non-sublicensable and fully revocable license (the “Coinapult License”) to access and use the Services during the time that you are in compliance with these Terms.
+
+'''Use of the Services'''
+
+Your use of the Services shall be for non-commercial purposes, which means you shall not sublicense, rent, lease, sell, trade, gift, bequeath or otherwise transfer any license associated with the Services, Coinapult, or the Coinapult.com website to anyone without Coinapult's written permission. You hereby represent and warrant that you have not and will not access or use any license that has been sublicensed, rented, leased, sold, traded, gifted, bequeathed, or otherwise transferred without Coinapult's consent.
+
+'''In addition, you shall not:'''
+
+- Use, or attempt to use, the Services to harass, abuse, or harm, or advocate or incite harassment, abuse or harm of another person, group;
+
+- Post any abusive, threatening, obscene, defamatory, libelous, or racially, sexually, religiously, or otherwise objectionable or offensive content or information or any content or information that contains nudity, excessive violence, or offensive subject matter or that contains a link to such content;
+
+- Inappropriately solicit or attempt to solicit personal information from other users of the Services, nor shall you harvest or share anyone's private information, including personally identifiable or financial information in or through the use of the Services;
+
+- Advertise, spam or distribute any malware, spyware or other malicious content in or through the Services;
+
+- Engage in any illegal conduct or intentionally or unintentionally violate, or promote the violation of, any applicable laws or regulations;
+
+- Disrupt or overburden any computer or server used by or in the Services, become involved in any type of attack (including but not limited to distribution of a virus, denial of service attacks), nor in any other way attempt to disrupt the Services or any other user's use or enjoyment of the Services;
+
+- Disrupt the Services in any manner (including but not limited to using cheats, exploits, automation software, bots, hacks, mods or any software designed to modify or interfere with the Services or overall experience). Cheating includes, without limitation, any automated use of the Services or circumventing or modifying any security, technology or device that is part of the Services.
+
+- Disrupt the Services in any manner (including but not limited to using cheats, exploits, automation software, bots, hacks, mods or any software designed to modify or interfere with the Services or overall experience). Cheating includes, without limitation, any automated use of the Services or circumventing or modifying any security, technology or device that is part of the Services;
+
+- Reverse engineer, decompile, disassemble, decipher or otherwise attempt to derive the source code for any underlying software or other intellectual property used in the Services; or
+
+- Attempt to gain unauthorized access to the Services, user accounts registered to others or to the computers, servers, or networks connected to the Services by any means other than the Services' user interface.
+
+'''Content Ownership'''
+
+Coinapult owns ALL content generated by you. You agree that you do not own any data Coinapult or its partners store on their servers (including without limitation any data representing or embodying any or all of the Coinapult Content or content submitted by you).
+
+'''User Content'''
+
+Each user is responsible for any content or information they post or transmit in the Services and Coinapult assumes no responsibility for the conduct of any user submitting any content or for the information transmitted by any user. You shall not make available in the Services any material or information that violates any law, rule, or regulation, or infringes any copyright, trademark, patent, trade secret, right of privacy, right of publicity, or other right of any person or entity, or impersonates any other person.
+
+Coinapult assumes no responsibility for monitoring the Services for inappropriate or illegal content or conduct, and has no obligation to monitor user content. To the extent Coinapult becomes aware of any user content it shall have the right, in its sole discretion, to edit, refuse to transmit, or remove any user content. As you use the Services, Coinapult may monitor and/or record your use of the Services and/or communications while you are using the Services and you hereby provide your irrevocable consent to such monitoring and recording.
+
+'''User Submissions'''
+
+The Services may provide you and other users the opportunity to submit questions, comments, suggestions, ideas, plans, notes, drawings, original or creative materials or other information about the Services (the “Submissions”). Submissions, however they are transmitted, are non-confidential as between you and Coinapult and shall become the sole property of Coinapult upon receipt. Coinapult shall own, and you hereby assign to Coinapult, all right, title, and interest, including all intellectual property rights, in and to such Submissions, and Coinapult shall be entitled to the unrestricted use and dissemination of these Submissions for any purpose, commercial or otherwise, without acknowledgment or compensation to you. You agree to execute any documentation required by Coinapult (in its sole discretion) to confirm such assignment to, and unrestricted use and dissemination by, Coinapult of such Submissions.
+
+'''Third Party Content or Advertising'''
+
+Coinapult may, from time-to-time provide third party content in the Services and may provide, as a service, links to web pages and content of third parties (“Third Party Content”). Coinapult does not monitor or have any control over any Third Party Content or third party websites. Unless otherwise expressly stated by Coinapult, Coinapult does not endorse or adopt, and is not responsible or liable for, any Third Party Content. Coinapult does not make any representations or warranties of any kind regarding the Third Party Content, including, without limitation, any representations or warranties regarding its accuracy, completeness or non-infringement. Coinapult undertakes no responsibility to update or review any Third Party Content and users use such Third Party Content contained therein at their own risk.
+
+'''INACTIVE ACCOUNTS'''
+
+You hereby acknowledge that your account shall be considered inactive in either of the following two situations have occurred (the “Inactivity Milestones”): (a) if the account record is not modified for a period of six (6) calendar years, or (b) in the case where an account has locked bitcoins, if the account record is not modified for a period of four (4) calendar years. Account modification occurs, for example, anytime a change occurs in the balance, or adjustment of settings.
+
+Anytime after the Inactivity Milestones have taken place, Coinapult reserves the right to send a first notification to any and all email addresses and phone numbers associated with the account indicating that the funds can be appropriated by Coinapult 90 calendar days after the first notification has been sent. A second notification shall be sent 60 calendar days after the first notification. The user expressly accepts that any funds deposited in their account will be appropriated 90 calendar days after the Inactivity Milestone has taken place, unless user initiates any modification (described above) before the 90 day period expires. 
+
+'''INDEMNIFICATION'''
+
+You agree to defend, indemnify and hold harmless Coinapult, its subsidiaries, affiliates, independent contractors, service providers and consultants, and their respective directors, employees and agents, from and against any claims, damages, costs, liabilities and expenses (including, but not limited to, reasonable attorneys' fees) arising out of or related (a) your use of the Services, (b) any user content or Submission you post, store or otherwise transmit on or through the Services, (c) your violation of these Terms and/or any other Coinapult terms, policies, or agreements, (d) your violation of any other persons rights, or (e) your conduct in connection with the Services.
+
+'''LIMITATION OF LIABILITY'''
+
+'''Types of Damages'''
+
+TO THE FULLEST EXTENT PERMITTED BY LAW, IN NO EVENT WILL COINAPULT, ITS AFFILIATES, AGENTS, REPRESENTATIVES, SUPPLIERS OR DISTRIBUTORS BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE, EXEMPLARY OR CONSEQUENTIAL DAMAGES OR ANY LOSS OF USE, DATA, BUSINESS, OR PROFITS, REGARDLESS OF LEGAL THEORY, WHETHER OR NOT COINAPULT HAS BEEN WARNED OF THE POSSIBILITY OF SUCH DAMAGES, AND EVEN IF A REMEDY FAILS OF ITS ESSENTIAL PURPOSE. Some jurisdictions do not allow the types of limitations in this paragraph, so they may not apply to you.
+
+'''Aggregate Liability Caps/Sole Remedy.'''
+
+TO THE FULLEST EXTENT PERMITTED BY LAW, THE AGGREGATE LIABILITY TOWARD YOU AND SOLE REMEDY TO YOU IN THE CASE OF OUR FAILURE TO LOCK SHALL BE TO RESTORE YOUR FIXED BITCOIN BALANCE PRIOR TO SUCH FAILURE.
+
+TO THE FULLEST EXTENT PERMITTED BY LAW, AFTER WE HAVE ACCEPTED YOUR LOCK, THE AGGREGATE LIABILITY TOWARD YOU AND SOLE REMEDY TO YOU IN THE CASE OF OUR FAILURE TO UNLOCK SHALL BE TO RESTORE YOUR VARIABLE BITCOIN BALANCE PRIOR TO SUCH FAILURE.
+
+IN ALL OTHER CIRCUMSTANCES, THE AGGREGATE LIABILITY TO YOU UNDER THESE TERMS SHALL NOT EXCEED AN AMOUNT EQUAL TO $5,000 U.S. DOLLARS.
+
+'''Timing of Claims'''
+
+Any claim for damages must be brought by you within ninety (90) days of the date of the event giving rise to any such claim, and any lawsuit relative to any such claim must be filed within one (1) year of the date of the event giving rise to any such claim.
+
+'''Application'''
+
+THE LIMITATIONS OF LIABILITY SET FORTH IN THIS SECTION WILL BE READ TO APPLY TO ANY LIABILITY OF COINAPULT, ITS AFFILIATES, AGENTS, REPRESENTATIVES, SUPPLIERS OR DISTRIBUTORS AS AGGREGATED WITH THE LIABILITY OF COINAPULT.
+
+'''LIMITED WARRANTY'''
+
+With any extraordinary suspension of services due to technical difficulties, we warrant that, under normal use, the Services shall substantially conform to these Terms. OUR SOLE AND EXCLUSIVE OBLIGATION, AND YOUR SOLE AND EXCLUSIVE RIGHT, WITH RESPECT TO CLAIMS UNDER ITS WARRANTIES SHALL BE LIMITED TO THE REMEDIES AND AGGREGATE LIABILITY CAPS DESCRIBED IN THE PRIOR SECTION.
+
+THE EXPRESS WARRANTY GRANTED ABOVE IS IN LIEU OF ALL OTHER WARRANTIES, WHETHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS. ALL OTHER WARRANTIES WHETHER EXPRESSED OR IMPLIED ARE HEREBY SPECIFICALLY DISCLAIMED.
+
+'''COMPLIANCE WITH LAWS AND GEOGRAPHICAL RESTRICTIONS'''
+
+'''Compliance with Applicable Laws'''
+
+You represent that you are duly authorized to enter into these Terms and represent that with respect to your performance hereunder; you will comply with all applicable federal, state and local laws. You will pay for all taxes of any nature arising with respect to the Services that apply in any jurisdiction. We are not responsible for determining whether our Services satisfy the local regulatory requirements of any jurisdiction. You will not use our Services unless lawful for you to do so.
+
+'''Geographical Restrictions'''
+
+Coinapult shall limit the geographical scope of these services from time to time. Coinapult will immediately terminate your account in case we detect that you have circumvented or attempted to circumvent Coinapult's geographical limitations to provide the Locks service.
+
+'''TERMINATION'''
+
+You are free to stop using our Services at any time. We also reserve the right to suspend or end the Services at any time at our discretion and without notice. For example, we may suspend or terminate your use of the Services if you're not complying with these Terms, or use the Services in a manner that would cause us legal liability, disrupt the Services or disrupt others' use of the Services. In the event of cancellation, termination or expiration of these Terms, the following terms and conditions will survive: LIMITATION OF LIABILITY, LIMITED WARRANTY, INDEMNIFICATION, CONTROLLING LAW, DISPUTE RESOLUTION, and MISCELLANEOUS.
+
+'''CONTROLLING LAW'''
+
+These Terms will be governed by the laws of the Republic of Panama except for its conflicts of laws principles. Without limitation, the UN Convention for the International Sale of Goods will have no force or effect with respect to the Services.
+
+'''DISPUTE RESOLUTION'''
+
+You agree that any claim or dispute at law or equity that has arisen or may arise between us relating in any way to or arising out of these Terms or the Services will be resolved in accordance with the provisions set forth in this Legal Disputes Section. Please read this Section carefully. It affects your rights and will have a substantial impact on how claims you and we have against each other are resolved.
+
+'''Customer Service Conciliation'''
+
+We will strive to address your concerns without needing a formal legal case. Before filing a claim against Coinapult, you agree to try to resolve the dispute informally by contacting our customer service department. We shall work to resolve the dispute informally by contacting you. If a dispute is not resolved within 30 calendar days of submission, you may bring a formal arbitration proceeding in accordance with this Section.
+
+'''Arbitration'''
+
+You agree to resolve any claims relating to these Terms or the Services through final and binding arbitration in accordance with the conditions set below.
+
+'''Opt-out of Agreement to Arbitrate'''
+
+IF YOU HAVE NOT USED THE SERVICES BEFORE, YOU CAN CHOOSE TO REJECT THE REQUIREMENT TO ARBITRATE HEREIN ("OPT-OUT") BY DELIVERING TO US A WRITTEN OPT-OUT NOTICE ("OPT-OUT NOTICE"). THE OPT-OUT NOTICE MUST BE DELIVERED IN ACCORDANCE WITH THE NOTICE PROCEDURE SET FORTH IN THE MISCELLANEOUS SECTION BELOW. You will bee deemed not to “have used our services” if you have both (1) opened a wallet and have upgraded the wallet to obtain a username and password and (2) you have not deposited any bitcoins or made any transactions.
+
+The Opt-Out Notice must include your name, address (including street address, city, state, country, and postal code). You must sign the Opt-Out Notice for it to be effective. This procedure is the only way you can opt-out of the requirement to arbitrate. If you opt-out of the requirement to arbitrate, all other parts of these terms including the other parts of the Legal Disputes Section will continue to apply to you. Opting out will have no effect on any previous, other, or future arbitration agreements that you may have with us.
+
+'''Arbitration Procedures'''
+
+Arbitration is more informal than a lawsuit in court. Arbitration uses a neutral arbitrator instead of a judge or jury, and court review of an arbitration award is very limited. However, an arbitrator can award the same damages and relief on an individual basis that a court can award to an individual. An arbitrator should apply these Terms as a court would.
+
+The arbitrator, and not any federal, state, or local court or agency, shall have exclusive authority to resolve any dispute arising out of or relating to the interpretation, applicability, enforceability or formation of these Terms including, but not limited to, any claim that all or any part of the requirement to arbitrate under these Terms is void or voidable.
+
+The arbitration will be conducted by and shall be finally settled under the Rules of Arbitration of the International Chamber of Commerce (“ICC”) by one or more arbitrators appointed in accordance with the said Rules, as such Rules are modified by these Terms. The Emergency Arbitrator Provisions shall not apply. The ICC's rules are available at [http://www.iccwbo.org/ www.iccwbo.org]. 
+
+The arbitration shall be held in Panama. However, if this forum is not convenient for you, you may elect to have the arbitration conducted by telephone or based solely on written submissions, which election shall be binding on you subject to the arbitrator's discretion to require an in-person hearing, if the circumstances warrant. Attendance at an in-person hearing may be made by telephone by you, unless the arbitrator requires otherwise.
+
+The arbitrator will decide the substance of all claims in accordance with the laws of the Republic of Panama without reference to its conflict-of-laws provisions, including recognized principles of equity, and will honor all claims of privilege recognized by law. The arbitrator shall not be bound by rulings in prior arbitrations involving different Coinapult users, but is bound by rulings in prior arbitrations involving the same Coinapult user to the extent required by applicable law. The arbitrator's award shall be final and binding and judgment on the award rendered by the arbitrator may be entered in any court having jurisdiction thereof.
+
+The arbitrator shall be empowered to grant whatever relief would be available in court under law or in equity, except that the arbitrator will be subject to all the limitations set forth in these Terms, including that the arbitrator will not have the jurisdiction or power to award punitive damages, treble damages or any other damages which are not compensatory, even if permitted under the laws of the Republic of Panama. Any award of the arbitrator(s) shall be final and binding on each of the parties, and may be entered as a judgment in any court of competent jurisdiction.
+
+'''No Class Actions.'''
+
+YOU AGREE THAT EACH OF US MAY BRING CLAIMS AGAINST THE OTHER ONLY ON AN INDIVIDUAL BASIS AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS OR REPRESENTATIVE ACTION OR PROCEEDING. UNLESS BOTH YOU AND COINAPULT AGREE OTHERWISE, THE ARBITRATOR MAY NOT CONSOLIDATE OR JOIN MORE THAN ONE PERSON'S OR PARTY'S CLAIMS, AND MAY NOT OTHERWISE PRESIDE OVER ANY FORM OF A CONSOLIDATED, REPRESENTATIVE, OR CLASS PROCEEDING. ALSO, THE ARBITRATOR MAY AWARD RELIEF (INCLUDING MONETARY, INJUNCTIVE, AND DECLARATORY RELIEF) ONLY IN FAVOR OF THE INDIVIDUAL PARTY SEEKING RELIEF AND ONLY TO THE EXTENT NECESSARY TO PROVIDE RELIEF NECESSITATED BY THAT PARTY'S INDIVIDUAL CLAIM(S). ANY RELIEF AWARDED CANNOT AFFECT OTHER COINAPULT USERS.
+
+'''Judicial Forum For Disputes'''
+
+In the event that the agreement to arbitrate is found not to apply to you or your claim, you agree that any judicial proceeding will be brought in the courts of the Republic of Panama. You consent to venue and personal jurisdiction there.
+
+'''MISCELLANEOUS'''
+
+'''Entire Agreement; Severability'''
+
+These Terms constitute the entire agreement with respect to the Services and/or these Terms, and supersede and replace any other prior or contemporaneous agreements (whether oral or written), or terms and conditions applicable to the subject matter of these Terms. In the event that any provision of these Terms is held invalid or unenforceable by a court of competent jurisdiction or by any administrative action (any such court or administrative action to be conducted in accordance with these Terms), such holding or action shall not negate the validity or enforceability of any other provisions hereof to the extent they are enforceable in the applicable jurisdiction. These Terms create no third party beneficiary rights, except to Coinapult's affiliates, agents, representatives, suppliers and/or distributors.
+
+'''Translation Discrepancies'''
+
+Coinapult offers its Terms of Service in a wide range of languages for the recipient’s comfort of use. In case of discrepancy between the original English text and any translation, the original English text shall prevail.
+
+All recipients are advised to carefully examine the original English text before acting upon a translation thereof. Any user who does not fully understand the original English text is strongly encouraged to contact Coinapult by e-mail at [mailto:legal@coinapult.com legal@coinapult.com]. 
+
+Coinapult shall not be bound by, or liable to any recipient for, an incomplete or inaccurate translation of an original English text to another language.
+
+'''Headings'''
+
+The headings of each section in this agreement are included only for convenience and shall not affect the constructions of these Terms.
+
+'''Assignment'''
+
+You may not assign any of your rights under these Terms, and any such attempt will be void. Coinapult may freely assign its rights under this Agreement or with respect to the Services without notice to you.
+
+'''Modifications'''
+
+We may revise these Terms from time to time, by posting the most current version on our website. By continuing to use or access the Services after the revisions come into effect, you agree to be bound by the revised Terms.
+
+'''Changes'''
+
+We reserve the right at any time to make changes to our Services or other offerings without notice to you.
+
+'''Force Majeure'''
+
+We will not be deemed in default of these Terms to the extent that performance of its obligations or attempts to cure any breach are delayed or prevented by reason of any act of God, war, civil war, insurrections, bank failures, strikes, fires, floods, earthquakes, labor disputes, epidemics, governmental regulations, freight embargoes, natural disaster, act of government, or any other cause beyond its reasonable control.
+
+'''Notices to Coinapult'''
+
+All notices, agreements, disclosures or other communications to be given and received by Coinapult under these Terms shall be by email to [mailto:legal@coinapult.com legal@coinapult.com] and will satisfy any legal communication requirements, including any requirements that such notices be in writing and will be deemed to be given and received upon confirmation of receipt. 
+
+'''Waiver and Conflict'''
+
+The failure of Coinapult to exercise or enforce any right or provision in these Terms shall not operate as a waiver. As it relates to the Services, if there is ever a conflict between these Terms and any other terms or policies these Terms will control.
+
+'''If you have any questions about the Terms of Service please contact Coinapult at [mailto:legal@coinapult.com legal@coinapult.com] '''
+
+'''DISCLAIMER: '''
+
+'''Using Bitcoin carries a high level of risk, and may not be suitable for all individuals. Before deciding to used the products offered by Coinapult you should carefully consider your objectives, financial situation, needs and level of experience. The content of this website must not be construed as personal advice. The possibility exists that by “unlocking” you will receive less or more bitcoin than what you “locked” and therefore, you should not speculate with capital that you cannot afford to lose. You should be aware of all of the risks associated with the use of Bitcoin and it is recommended you seek advice from an independent financial advisor. Coinapult will not accept liability for any loss or damage, including without limitation to, any loss of profit, which may arise directly or indirectly from use of or reliance on information on this website. There may be additional risks that Coinapult does not currently foresee or consider material.'''
+
+
+
