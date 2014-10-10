@@ -5,11 +5,51 @@ require 'openssl'
 require 'rest_client'
 require 'securerandom'
 
+ECC_CURVE = 'secp256k1'
+ECC_COINAPULT_PUB = "
+-----BEGIN PUBLIC KEY-----
+MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEWp9wd4EuLhIZNaoUgZxQztSjrbqgTT0w
+LBq8RwigNE6nOOXFEoGCjGfekugjrHWHUi8ms7bcfrowpaJKqMfZXg==
+-----END PUBLIC KEY-----
+"
+ECC_COINAPULT_PUBKEY = OpenSSL::PKey.read(ECC_COINAPULT_PUB)
+
 class CoinapultClient
-  def initialize(key, secret, baseURL: 'https://api.coinapult.com')
-    @key = key
-    @secret = secret
+  def initialize(credentials: nil, baseURL: 'https://api.coinapult.com',
+                 ecc: nil, authmethod: nil)
+    @key = ''
+    @secret = ''
     @baseURL = baseURL
+    @authmethod = authmethod
+
+    if credentials
+      @key = credentials[:key]
+      @secret = credentials[:secret]
+    end
+    _setup_ECC_pair([ecc[:privkey], ecc[:pubkey]]) if ecc
+  end
+
+  def export_ECC
+    [@ecc[:privkey].to_pem,
+     @ecc[:pubkey].to_pem]
+  end
+
+  def _setup_ECC_pair(keypair)
+    if keypair.nil?
+      privkey = OpenSSL::PKey::EC.new(ECC_CURVE)
+      privkey.generate_key
+      pubkey = OpenSSL::PKey::EC.new(privkey.group)
+      pubkey.public_key = privkey.public_key
+      @ecc = { privkey: privkey, pubkey: pubkey }
+    else
+      privkey, pubkey = keypair
+      @ecc = {
+        privkey: OpenSSL::PKey.read(privkey),
+        pubkey: OpenSSL::PKey.read(pubkey)
+      }
+    end
+    @ecc_pub_pem = @ecc[:pubkey].to_pem.strip
+    @ecc_pub_hash = OpenSSL::Digest::SHA256.hexdigest(@ecc_pub_pem)
   end
 
   # Send a generic request to Coinapult.
@@ -18,10 +58,10 @@ class CoinapultClient
 
     if sign
       values['timestamp'] = Time.now.to_i
-      values['nonce'] = SecureRandom.hex
+      values['nonce'] = SecureRandom.hex(10)
       values['endpoint'] = url[4..-1]
       headers['cpt-key'] = @key
-      signdata = Base64.encode64(JSON.generate(values))
+      signdata = Base64.urlsafe_encode64(JSON.generate(values))
       headers['cpt-hmac'] = OpenSSL::HMAC.hexdigest('sha512', @secret, signdata)
       data = { data: signdata }
     else
@@ -32,7 +72,81 @@ class CoinapultClient
     else
       response = RestClient.get("#{@baseURL}#{url}", data, headers)
     end
-    JSON.parse(response)
+    _format_response(response)
+  end
+
+  def _format_response(response)
+    resp = JSON.parse(response)
+    fail CoinapultError, resp['error'] if resp['error']
+    resp
+  end
+
+  def _send_ECC(url, values, new_account: false, sign: true)
+    headers = {}
+
+    if !new_account
+      values['nonce'] = SecureRandom.hex(10)
+      values['endpoint'] = url[4..-1]
+      headers['cpt-ecc-pub'] = @ecc_pub_hash
+    else
+      headers['cpt-ecc-new'] = Base64.urlsafe_encode64(@ecc_pub_pem)
+    end
+    values['timestamp'] = Time.now.to_i
+
+    data = Base64.urlsafe_encode64(JSON.generate(values))
+    headers['cpt-ecc-sign'] = generate_ECC_sign(data, @ecc[:privkey])
+    response = RestClient.post("#{@baseURL}#{url}", { data: data }, headers)
+    _format_response(response)
+  end
+
+  def _receive_ECC(resp)
+    if resp['sign'].nil? || resp['data'].nil?
+      fail CoinapultErrorECC, 'Invalid ECC message'
+    end
+    # Check signature.
+    unless verify_ECC_sign(resp['sign'], resp['data'], ECC_COINAPULT_PUBKEY)
+      fail CoinapultErrorECC, 'Invalid ECC signature'
+    end
+
+    JSON.parse(Base64.urlsafe_decode64(resp['data']))
+  end
+
+  def send_to_coinapult(endpoint, values, sign: false, **kwargs)
+    if sign && @authmethod == 'ecc'
+      method = self.method(:_send_ECC)
+    else
+      method = self.method(:_send_request)
+    end
+
+    method.call(endpoint, values, sign: sign, **kwargs)
+  end
+
+  def create_account(create_local_keys: true, change_authmethod: true,
+                     **kwargs)
+    url = '/api/account/create'
+
+    _setup_ECC_pair(nil) if create_local_keys
+
+    pub_pem = @ecc_pub_pem
+    result = _receive_ECC(_send_ECC(url, kwargs, new_account: true))
+    unless result['success'].nil?
+      if result['success'] != OpenSSL::Digest::SHA256.hexdigest(pub_pem)
+        fail CoinapultErrorECC, 'Unexpected public key'
+      end
+      @authmethod = 'ecc' if change_authmethod
+      puts "Please read the terms of service in TERMS.txt before \
+proceeding with the account creation. #{result['info']}"
+    end
+
+    result
+  end
+
+  def activate_account(agree, pubhash: nil)
+    url = '/api/account/activate'
+
+    pubhash = @ecc_pub_hash if pubhash.nil?
+    values = { agree: agree, hash: pubhash }
+    _receive_ECC(_send_ECC(url, values, new_account: true))
   end
 
   def receive(amount: 0, out_amount: 0, currency: 'BTC', out_currency: nil,
@@ -40,7 +154,7 @@ class CoinapultClient
     url = '/api/t/receive/'
 
     if amount > 0 && out_amount > 0
-      fail ArgumentError('specify either the input amount or the output amount')
+      fail ArgumentError, 'specify either the input amount or the output amount'
     end
 
     values = {}
@@ -49,7 +163,7 @@ class CoinapultClient
     elsif out_amount > 0
       values['outAmount'] = out_amount
     else
-      fail ArgumentError('no amount specified')
+      fail ArgumentError, 'no amount specified'
     end
 
     out_currency = currency unless out_currency.nil?
@@ -67,7 +181,7 @@ class CoinapultClient
     url = '/api/t/send/'
 
     if amount > 0 && out_amount > 0
-      fail ArgumentError('specify either the input amount or the output amount')
+      fail ArgumentError, 'specify either the input amount or the output amount'
     end
 
     values = {}
@@ -76,7 +190,7 @@ class CoinapultClient
     elsif out_amount > 0
       values['outAmount'] = out_amount
     else
-      fail ArgumentError('no amount specified')
+      fail ArgumentError, 'no amount specified'
     end
     values['currency'] = currency
     values['address'] = address
@@ -90,9 +204,9 @@ class CoinapultClient
     url = '/api/t/convert/'
 
     if amount <= 0
-      fail ArgumentError('invalid amount')
+      fail ArgumentError, 'invalid amount'
     elsif in_currency == out_currency
-      fail ArgumentError('cannot convert currency to itself')
+      fail ArgumentError, 'cannot convert currency to itself'
     end
 
     values = {}
@@ -115,7 +229,7 @@ class CoinapultClient
     values['from'] = fro unless fro.nil?
     values['extOID'] = external_id unless external_id.nil?
     values['txhash'] = txhash unless txhash.nil?
-    fail ArgumentError('no search parameters provided') if values.length == 0
+    fail ArgumentError, 'no search parameters provided' if values.length == 0
     values['many'] = '1' if many
     values['page'] = page unless page.nil?
 
@@ -126,7 +240,7 @@ class CoinapultClient
     url = '/api/t/lock/'
 
     if amount > 0 && out_amount > 0
-      fail ArgumentError('specify either the input amount or the output amount')
+      fail ArgumentError, 'specify either the input amount or the output amount'
     end
 
     values = {}
@@ -135,7 +249,7 @@ class CoinapultClient
     elsif out_amount > 0
       values['outAmount'] = out_amount
     else
-      fail ArgumentError('no amount specified')
+      fail ArgumentError, 'no amount specified'
     end
     values['callback'] = callback if callback
     values['currency'] = currency
@@ -147,7 +261,7 @@ class CoinapultClient
     url = '/api/t/unlock/'
 
     if amount > 0 && out_amount > 0
-      fail ArgumentError('specify either the input amount or the output amount')
+      fail ArgumentError, 'specify either the input amount or the output amount'
     end
 
     values = {}
@@ -156,7 +270,7 @@ class CoinapultClient
     elsif out_amount > 0
       values['outAmount'] = out_amount
     else
-      fail ArgumentError('no amount specified')
+      fail ArgumentError, 'no amount specified'
     end
     values['callback'] = callback if callback
     values['currency'] = currency
@@ -183,6 +297,33 @@ class CoinapultClient
 
   # Display basic account information
   def account_info
-    _send_request('/api/accountInfo', {}, sign: true)
+    send_to_coinapult('/api/accountInfo', {}, sign: true)
   end
+end
+
+class CoinapultError < StandardError; end
+
+class CoinapultErrorECC < CoinapultError; end
+
+def generate_ECC_sign(data, privkey)
+  curve = privkey.group.curve_name
+  if curve != ECC_CURVE
+    fail CoinapultErrorECC, "key on curve #{curve}, expected #{ECC_CURVE}"
+  end
+  hmsg = OpenSSL::Digest::SHA256.digest(data)
+  sign = OpenSSL::ASN1.decode(privkey.dsa_sign_asn1(hmsg))
+  # Encode the signature as the r and s values.
+  "#{sign.value[0].value.to_s(16)}#{sign.value[1].value.to_s(16)}"
+end
+
+def verify_ECC_sign(signstr, origdata, pubkey)
+  curve = pubkey.group.curve_name
+  if curve != ECC_CURVE
+    fail CoinapultErrorECC, "key on curve #{curve}, expected #{ECC_CURVE}"
+  end
+  r = OpenSSL::ASN1::Integer.new(signstr[0..63].to_i(16))
+  s = OpenSSL::ASN1::Integer.new(signstr[64..-1].to_i(16))
+  sign = OpenSSL::ASN1::Sequence.new([r, s])
+  pubkey.dsa_verify_asn1(OpenSSL::Digest::SHA256.digest(origdata),
+                         sign.to_der)
 end
