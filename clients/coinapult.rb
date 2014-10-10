@@ -166,7 +166,7 @@ proceeding with the account creation. #{result['info']}"
       fail ArgumentError, 'no amount specified'
     end
 
-    out_currency = currency unless out_currency.nil?
+    out_currency = currency if out_currency.nil?
 
     values['currency'] = currency
     values['outCurrency'] = out_currency
