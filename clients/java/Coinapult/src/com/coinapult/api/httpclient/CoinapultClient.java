@@ -274,17 +274,21 @@ public class CoinapultClient {
 	/**
 	 * Create an account.
 	 *
-	 * @throws IOException
-	 * @throws SignatureException
-	 * @throws NoSuchAlgorithmException
+	 * @param options
+	 * @return
 	 * @throws InvalidKeyException
+	 * @throws NoSuchAlgorithmException
+	 * @throws SignatureException
+	 * @throws IOException
 	 * @throws CoinapultExceptionECC
 	 */
-	public AccountNew.JsonNew createAccount() throws InvalidKeyException,
-			NoSuchAlgorithmException, SignatureException, IOException,
-			CoinapultExceptionECC {
+	public AccountNew.JsonNew createAccount(Map<String, String> options)
+			throws InvalidKeyException, NoSuchAlgorithmException,
+			SignatureException, IOException, CoinapultExceptionECC {
 		String endpoint = "/api/account/create";
-		Map<String, String> options = new HashMap<String, String>();
+		if (options == null) {
+			options = new HashMap<String, String>();
+		}
 
 		JsonParser result = receiveECC(sendECCRequest(ECC.Json.class, endpoint,
 				options, true));
@@ -299,6 +303,12 @@ public class CoinapultClient {
 							+ parsed.info);
 		}
 		return parsed;
+	}
+
+	public AccountNew.JsonNew createAccount() throws InvalidKeyException,
+			NoSuchAlgorithmException, SignatureException,
+			CoinapultExceptionECC, IOException {
+		return createAccount(null);
 	}
 
 	/**
@@ -740,7 +750,15 @@ public class CoinapultClient {
 		return result;
 	}
 
-	/** Utility functions. */
+	/**
+	 * Utility functions.
+	 */
+	public boolean authenticateCallbackECC(String recvSign, String recvData)
+			throws InvalidKeyException, NoSuchAlgorithmException,
+			SignatureException, IOException {
+		return ECC.verifySign(recvSign, recvData, COINAPULT_PUBKEY);
+	}
+
 	public boolean authenticateCallback(String recvKey, String recvSign,
 			String recvData) throws InvalidKeyException,
 			NoSuchAlgorithmException, NoSuchProviderException {
