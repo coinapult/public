@@ -8,10 +8,10 @@ import hmac
 import json
 import time
 import base64
-import urllib
-import urllib2
-import urlparse
+from urlparse import urljoin
 from hashlib import sha256, sha512
+
+import requests
 
 ecdsa = None
 try:
@@ -92,7 +92,6 @@ class CoinapultClient():
 
         Raises CoinapultError
         """
-
         headers = {}
 
         if sign:
@@ -102,16 +101,16 @@ class CoinapultClient():
             headers['cpt-key'] = self.key
             signdata = base64.b64encode(json.dumps(values))
             headers['cpt-hmac'] = generateHmac(signdata, self.secret)
-            data = urllib.urlencode({'data': signdata})
+            data = {'data': signdata}
         else:
-            data = urllib.urlencode(values)
+            data = values
 
+        finalURL = urljoin(self.baseURL, url)
         if post:
-            req = urllib2.Request(self.baseURL + str(url), data, headers=headers)
+            res = requests.post(finalURL, data=data, headers=headers)
         else:
-            req = urllib2.Request(self.baseURL + str(url) + "?%s" % data,
-                                  headers=headers)
-        return self._format_response(urllib2.urlopen(req).read())
+            res = requests.get(finalURL, params=data)
+        return self._format_response(res.text)
 
     def _format_response(self, result):
         resp = json.loads(result)
@@ -143,10 +142,9 @@ class CoinapultClient():
         data = base64.b64encode(json.dumps(values))
         headers['cpt-ecc-sign'] = generateECCsign(data, self.ecc['privkey'])
 
-        form = urllib.urlencode({'data': data})
-        req = urllib2.Request(urlparse.urljoin(self.baseURL, url),
-                              form, headers=headers)
-        return self._format_response(urllib2.urlopen(req).read())
+        res = requests.post(urljoin(self.baseURL, url), data={'data': data},
+                            headers=headers)
+        return self._format_response(res.text)
 
     def _receiveECC(self, resp):
         """Decode a signed ECC response."""
@@ -169,7 +167,8 @@ class CoinapultClient():
 
         return method(endpoint, values, sign=sign, **kwargs)
 
-    def createAccount(self, createLocalKeys=True, changeAuthMethod=True):
+    def createAccount(self, createLocalKeys=True, changeAuthMethod=True,
+                      **kwargs):
         """
         Create a new account at Coinapult.
 
@@ -184,7 +183,7 @@ class CoinapultClient():
         if createLocalKeys:
             self._setupECCPair()
         pub_pem = self.ecc_pub_pem
-        result = self._receiveECC(self._sendECC(url, {}, newAccount=True))
+        result = self._receiveECC(self._sendECC(url, kwargs, newAccount=True))
         if 'success' in result:
             if result['success'] != sha256(pub_pem).hexdigest():
                 raise CoinapultErrorECC('Unexpected public key')
@@ -216,7 +215,7 @@ class CoinapultClient():
 
     def receive(self, amount=0, outAmount=0, currency='BTC', outCurrency=None,
                 extOID=None, callback='', **kwargs):
-        """Receive money immediately. Use invoice to receive bitcoin from third party."""
+        """Create a invoice to receive bitcoins from third party."""
 
         if amount and amount > 0:
             outAmount = 0
@@ -293,7 +292,7 @@ class CoinapultClient():
 
     def search(self, transaction_id=None, typ=None, currency=None, to=None,
                fro=None, extOID=None, txhash=None, many=False, page=None,
-               **kwargs):
+               situation=None, **kwargs):
         """Search for a transaction by common fields.
 
         To search for many transactions, set many=True and optionally
@@ -315,6 +314,8 @@ class CoinapultClient():
             values['extOID'] = extOID
         if txhash is not None:
             values['txhash'] = txhash
+        if situation is not None:
+            values['situation'] = situation
 
         if len(values) == 0:
             raise CoinapultError('no search parameters provided')
@@ -442,6 +443,11 @@ class CoinapultClient():
         locksAsBTC = '1' if locksAsBTC else '0'
         values = {'balanceType': balanceType, 'locksAsBTC': locksAsBTC}
         return self.sendToCoinapult(url, values, sign=True)
+
+    def accountAddress(self, address):
+        """Check if an address belongs to your account."""
+        url = '/api/accountInfo/address'
+        return self.sendToCoinapult(url, {'address': address}, sign=True)
 
     def authenticateCallback(self, recvKey, recvSign, recvData, **kwargs):
         """Utility for validating a received message.
