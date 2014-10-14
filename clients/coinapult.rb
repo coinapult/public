@@ -173,7 +173,7 @@ proceeding with the account creation. #{result['info']}"
     values['extOID'] = external_id unless external_id.nil?
     values['callback'] = callback
 
-    _send_request(url, values, sign: true)
+    send_to_coinapult(url, values, sign: true)
   end
 
   def send(amount, address, out_amount: 0, currency: 'BTC', typ: 'bitcoin',
@@ -197,7 +197,7 @@ proceeding with the account creation. #{result['info']}"
     values['type'] = typ
     values['callback'] = callback
 
-    _send_request(url, values, sign: true)
+    send_to_coinapult(url, values, sign: true)
   end
 
   def convert(amount, in_currency: 'USD', out_currency: 'BTC')
@@ -213,7 +213,8 @@ proceeding with the account creation. #{result['info']}"
     values['amount'] = amount
     values['inCurrency'] = in_currency
     values['outCurrency'] = out_currency
-    _send_request(url, values, sign: true)
+
+    send_to_coinapult(url, values, sign: true)
   end
 
   def search(transaction_id: nil, typ: nil, currency: nil,
@@ -233,7 +234,7 @@ proceeding with the account creation. #{result['info']}"
     values['many'] = '1' if many
     values['page'] = page unless page.nil?
 
-    _send_request(url, values, sign: true)
+    send_to_coinapult(url, values, sign: true)
   end
 
   def lock(amount, out_amount: 0, currency: 'USD', callback: nil)
@@ -254,7 +255,7 @@ proceeding with the account creation. #{result['info']}"
     values['callback'] = callback if callback
     values['currency'] = currency
 
-    _send_request(url, values, sign: true)
+    send_to_coinapult(url, values, sign: true)
   end
 
   def unlock(amount, address, out_amount: 0, currency: 'USD', callback: nil)
@@ -276,7 +277,16 @@ proceeding with the account creation. #{result['info']}"
     values['currency'] = currency
     values['address'] = address
 
-    _send_request(url, values, sign: true)
+    send_to_coinapult(url, values, sign: true)
+  end
+
+  def unlock_confirm(transaction_id)
+    url = '/api/t/unlock/confirm'
+
+    values = {}
+    values['transaction_id'] = transaction_id
+
+    send_to_coinapult(url, values, sign: true)
   end
 
   # Get the ticker
@@ -287,18 +297,55 @@ proceeding with the account creation. #{result['info']}"
     data['market'] = market unless market.nil?
     data['filter'] = filter unless filter.nil?
 
-    _send_request('/api/ticker', data, sign: false, post: false)
+    send_to_coinapult('/api/ticker', data, sign: false, post: false)
   end
 
   # Get a new bitcoin address
   def new_bitcoin_address
-    _send_request('/api/getBitcoinAddress', {}, sign: true)
+    send_to_coinapult('/api/getBitcoinAddress', {}, sign: true)
   end
 
   # Display basic account information
-  def account_info
-    send_to_coinapult('/api/accountInfo', {}, sign: true)
+  def account_info(balance_type: 'all', locks_as_BTC: false)
+    url = '/api/accountInfo'
+
+    values = {}
+    values['balanceType'] = balance_type
+    values['locksAsBTC'] = locks_as_BTC
+
+    send_to_coinapult(url, values, sign: true)
   end
+
+  # Check if an address belongs to your account
+  def account_address(address)
+    url = '/api/accountInfo/address'
+
+    values = {}
+    values['address'] = address
+
+    send_to_coinapult(url, values, sign: true)
+  end
+
+  # Utility for authenticating callbacks.
+  def authenticate_callback(recv_key, recv_sign, recv_data)
+    if recv_key.nil?
+      # ECC
+      return verify_ECC_sign(recv_sign, recv_data, ECC_COINAPULT_PUBKEY)
+    end
+
+    # HMAC
+    if recv_key != @key
+      # Unexpected API key received.
+      return false
+    end
+    test_HMAC = OpenSSL::HMAC.hexdigest('sha512', @secret, recv_data)
+    if test_HMAC != recv_sign
+      # Signature does not match.
+      return false
+    end
+    true
+  end
+
 end
 
 class CoinapultError < StandardError; end
