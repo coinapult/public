@@ -2,22 +2,14 @@
 __pycache__/
 *.py[cod]
 
-# C extensions
-*.so
-
 # Distribution / packaging
 .Python
-env/
 bin/
+env/
 build/
-develop-eggs/
 dist/
 eggs/
-lib/
-lib64/
-parts/
 sdist/
-var/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -26,17 +18,6 @@ var/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
-
-# Translations
-*.mo
-
 # Mr Developer
 .mr.developer.cfg
 .project
@@ -44,11 +25,3 @@ coverage.xml
 
 # Rope
 .ropeproject
-
-# Django stuff:
-*.log
-*.pot
-
-# Sphinx documentation
-docs/_build/
-
