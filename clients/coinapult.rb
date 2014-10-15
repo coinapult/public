@@ -6,6 +6,8 @@ require 'openssl'
 require 'rest_client'
 require 'securerandom'
 
+SSL_VERSION = :TLSv1_2
+
 ECC_CURVE = 'secp256k1'
 ECC_COINAPULT_PUB = "
 -----BEGIN PUBLIC KEY-----
@@ -87,7 +89,7 @@ class CoinapultClient
   def _send(method, url, headers, payload: nil)
      RestClient::Request.execute(method: method, url: url,
                                  headers: headers, payload: payload,
-                                 ssl_version: :TLSv1)
+                                 ssl_version: SSL_VERSION)
   end
 
   def _send_ECC(url, values, new_account: false, sign: true)
