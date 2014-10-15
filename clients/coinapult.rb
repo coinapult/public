@@ -72,9 +72,7 @@ class CoinapultClient
       response = _send(:post, "#{@baseURL}#{url}", headers, payload: data)
     else
       url = "#{@baseURL}#{url}"
-      if data.length > 0
-        url += "?#{URI.encode_www_form(data)}"
-      end
+      url += "?#{URI.encode_www_form(data)}" if data.length > 0
       response = _send(:get, url, headers)
     end
     _format_response(response)
@@ -87,9 +85,9 @@ class CoinapultClient
   end
 
   def _send(method, url, headers, payload: nil)
-     RestClient::Request.execute(:method => method, :url => url,
-                                 :headers => headers, :payload => payload,
-				 :ssl_version => "TLSv1")
+     RestClient::Request.execute(method: method, url: url,
+                                 headers: headers, payload: payload,
+                                 ssl_version: :TLSv1)
   end
 
   def _send_ECC(url, values, new_account: false, sign: true)
@@ -106,7 +104,8 @@ class CoinapultClient
 
     data = Base64.urlsafe_encode64(JSON.generate(values))
     headers['cpt-ecc-sign'] = generate_ECC_sign(data, @ecc[:privkey])
-    response = _send(:post, "#{@baseURL}#{url}", headers, payload: { data: data })
+    response = _send(:post, "#{@baseURL}#{url}", headers,
+                     payload: { data: data })
     _format_response(response)
   end
 
