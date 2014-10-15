@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'uri'
 require 'json'
 require 'base64'
 require 'openssl'
@@ -68,9 +69,13 @@ class CoinapultClient
       data = values
     end
     if post
-      response = RestClient.post("#{@baseURL}#{url}", data, headers)
+      response = _send(:post, "#{@baseURL}#{url}", headers, payload: data)
     else
-      response = RestClient.get("#{@baseURL}#{url}", data, headers)
+      url = "#{@baseURL}#{url}"
+      if data.length > 0
+        url += "?#{URI.encode_www_form(data)}"
+      end
+      response = _send(:get, url, headers)
     end
     _format_response(response)
   end
@@ -79,6 +84,12 @@ class CoinapultClient
     resp = JSON.parse(response)
     fail CoinapultError, resp['error'] if resp['error']
     resp
+  end
+
+  def _send(method, url, headers, payload: nil)
+     RestClient::Request.execute(:method => method, :url => url,
+                                 :headers => headers, :payload => payload,
+				 :ssl_version => "TLSv1")
   end
 
   def _send_ECC(url, values, new_account: false, sign: true)
@@ -95,7 +106,7 @@ class CoinapultClient
 
     data = Base64.urlsafe_encode64(JSON.generate(values))
     headers['cpt-ecc-sign'] = generate_ECC_sign(data, @ecc[:privkey])
-    response = RestClient.post("#{@baseURL}#{url}", { data: data }, headers)
+    response = _send(:post, "#{@baseURL}#{url}", headers, payload: { data: data })
     _format_response(response)
   end
 
