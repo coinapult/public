@@ -200,11 +200,11 @@ You represent that you are duly authorized to enter into these Terms and represe
 
 '''Geographical Restrictions'''
 
-Coinapult shall limit the geographical scope of these services from time to time. Coinapult will immediately terminate your account in case we detect that you have circumvented or attempted to circumvent Coinapult's geographical limitations to provide the Locks service.
+Coinapult shall limit the geographical scope of these services from time to time. Coinapult will immediately terminate your account in case we detect that you have circumvented or attempted to circumvent Coinapult's geographical limitations to provide the Locks service. Users from The United States of America are currently prohibited from using Coinapult's wallet, Locks, and any related services.
 
 '''TERMINATION'''
 
-You are free to stop using our Services at any time. We also reserve the right to suspend or end the Services at any time at our discretion and without notice. For example, we may suspend or terminate your use of the Services if you're not complying with these Terms, or use the Services in a manner that would cause us legal liability, disrupt the Services or disrupt others' use of the Services. In the event of cancellation, termination or expiration of these Terms, the following terms and conditions will survive: LIMITATION OF LIABILITY, LIMITED WARRANTY, INDEMNIFICATION, CONTROLLING LAW, DISPUTE RESOLUTION, and MISCELLANEOUS.
+You are free to stop using our Services at any time. We also reserve the right to suspend or end the Services at any time at our discretion and without notice. For example, we may suspend or terminate your use of the Services if you're not complying with these Terms, or use the Services in a manner that would cause us legal liability, disrupt the Services or disrupt others' use of the Services. In the event of cancellation, termination or expiration of these Terms, the following terms and conditions will survive: LIMITATION OF LIABILITY, LIMITED WARRANTY, INDEMNIFICATION, CONTROLLING LAW, DISPUTE RESOLUTION, and MISCELLANEOUS. Should Coinapult terminate your use of the services, best efforts will be used to return funds. User must have a verified email on file, and respond within a timely manner to enable this. If no verified email is available, or response is received by Coinapult within 45 days of termination, no further warrants are made.
 
 '''CONTROLLING LAW'''
 
@@ -216,7 +216,7 @@ You agree that any claim or dispute at law or equity that has arisen or may aris
 
 '''Customer Service Conciliation'''
 
-We will strive to address your concerns without needing a formal legal case. Before filing a claim against Coinapult, you agree to try to resolve the dispute informally by contacting our customer service department. We shall work to resolve the dispute informally by contacting you. If a dispute is not resolved within 30 calendar days of submission, you may bring a formal arbitration proceeding in accordance with this Section.
+We will strive to address your concerns without needing a formal legal case. Before filing a claim against Coinapult, you agree to try to resolve the dispute informally by contacting our customer service department. We shall work to resolve the dispute informally by contacting you. If a dispute is not resolved within 45 calendar days of submission, you may bring a formal arbitration proceeding in accordance with this Section.
 
 '''Arbitration'''
 
