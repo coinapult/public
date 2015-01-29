@@ -1,5 +1,6 @@
 package com.coinapult.api.httpclient;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import com.google.api.client.http.GenericUrl;
@@ -35,7 +36,7 @@ public class Ticker {
 		public String type; /* "ticker" */
 
 		@Key
-		public double index;
+		public BigDecimal index;
 
 		@Key
 		public String market;
@@ -80,9 +81,9 @@ public class Ticker {
 
 	public static class BidAsk {
 		@Key
-		public double bid;
+		public BigDecimal bid;
 
 		@Key
-		public double ask;
+		public BigDecimal ask;
 	}
 }

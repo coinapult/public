@@ -1,5 +1,6 @@
 package com.coinapult.api.httpclient;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.google.api.client.json.GenericJson;
@@ -19,6 +20,6 @@ public class AccountInfo {
 		public String currency;
 
 		@Key
-		public double amount;
+		public BigDecimal amount;
 	}
 }

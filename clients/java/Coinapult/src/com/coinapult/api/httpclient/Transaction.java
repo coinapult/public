@@ -1,5 +1,6 @@
 package com.coinapult.api.httpclient;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import com.coinapult.api.httpclient.Ticker.BidAsk;
@@ -61,12 +62,12 @@ public class Transaction {
 
 	public static class Half {
 		@Key
-		public double amount;
+		public BigDecimal amount;
 
 		@Key
 		public String currency;
 
 		@Key
-		public double expected;
+		public BigDecimal expected;
 	}
 }
