@@ -2,6 +2,7 @@ package com.coinapult.api.httpclient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.MessageDigest;
@@ -352,19 +353,23 @@ public class CoinapultClient {
 	 * @throws InvalidKeyException
 	 * @throws SignatureException
 	 */
-	public Transaction.Json receive(double amount, String currency,
-			double outAmount, String outCurrency, String callback, String extOID)
+	public Transaction.Json receive(Number amount, String currency,
+			Number outAmount, String outCurrency, String callback,
+			String extOID)
 					throws IOException, NoSuchProviderException,
 			NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 		String endpoint = "/api/t/receive";
 
+		BigDecimal inputAmount = new BigDecimal(amount.toString());
+		BigDecimal outputAmount = new BigDecimal(outAmount.toString());
+
 		Map<String, String> options = new HashMap<String, String>();
-		if (amount > 0) {
-			options.put("amount", String.valueOf(amount));
+		if (inputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("amount", inputAmount.toString());
 		}
 		options.put("currency", currency);
-		if (outAmount > 0) {
-			options.put("outAmount", String.valueOf(outAmount));
+		if (outputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("outAmount", outputAmount.toString());
 		}
 		if (outCurrency != null) {
 			options.put("outCurrency", outCurrency);
@@ -384,14 +389,14 @@ public class CoinapultClient {
 	/**
 	 * Receive a specific amount in BTC. If callback is not required, pass null.
 	 */
-	public Transaction.Json receive(double amount, String currency,
+	public Transaction.Json receive(Number amount, String currency,
 			String callback) throws IOException, NoSuchProviderException,
 			NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 		return receive(amount, currency, 0, null, callback, null);
 	}
 
 	/** Receive a specific amount in a currency different than BTC */
-	public Transaction.Json receive(String currency, double outAmount,
+	public Transaction.Json receive(String currency, Number outAmount,
 			String outCurrency, String callback) throws IOException,
 			NoSuchProviderException, NoSuchAlgorithmException,
 			InvalidKeyException, SignatureException {
@@ -402,7 +407,7 @@ public class CoinapultClient {
 	 * Receive in a currency different than BTC by automatically converting the
 	 * amount in BTC.
 	 */
-	public Transaction.Json receive(double amount, String currency,
+	public Transaction.Json receive(Number amount, String currency,
 			String outCurrency, String callback) throws IOException,
 			NoSuchProviderException, NoSuchAlgorithmException,
 			InvalidKeyException, SignatureException {
@@ -426,21 +431,25 @@ public class CoinapultClient {
 	 * @throws NoSuchAlgorithmException
 	 * @throws SignatureException
 	 */
-	public Transaction.Json send(double amount, String currency,
-			String address, double outAmount, String callback, String extOID,
+	public Transaction.Json send(Number amount, String currency,
+			String address, Number outAmount, String callback,
+			String extOID,
 			String otp) throws IOException, InvalidKeyException,
 			NoSuchProviderException, NoSuchAlgorithmException,
 			SignatureException {
 		String endpoint = "/api/t/send";
 
+		BigDecimal inputAmount = new BigDecimal(amount.toString());
+		BigDecimal outputAmount = new BigDecimal(outAmount.toString());
+
 		Map<String, String> options = new HashMap<String, String>();
-		if (amount > 0) {
-			options.put("amount", String.valueOf(amount));
+		if (inputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("amount", inputAmount.toString());
 		}
 		options.put("currency", currency);
 		options.put("address", address);
-		if (outAmount > 0) {
-			options.put("outAmount", String.valueOf(outAmount));
+		if (outputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("outAmount", outputAmount.toString());
 		}
 		if (callback != null) {
 			options.put("callback", callback);
@@ -472,19 +481,22 @@ public class CoinapultClient {
 	 * @throws NoSuchAlgorithmException
 	 * @throws SignatureException
 	 */
-	public Transaction.Json convert(double amount, String currency,
-			double outAmount, String outCurrency, String callback)
+	public Transaction.Json convert(Number amount, String currency,
+			Number outAmount, String outCurrency, String callback)
 					throws IOException, InvalidKeyException, NoSuchProviderException,
 			NoSuchAlgorithmException, SignatureException {
 		String endpoint = "/api/t/convert";
 
+		BigDecimal inputAmount = new BigDecimal(amount.toString());
+		BigDecimal outputAmount = new BigDecimal(outAmount.toString());
+
 		Map<String, String> options = new HashMap<String, String>();
-		if (amount > 0) {
-			options.put("amount", String.valueOf(amount));
+		if (inputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("amount", inputAmount.toString());
 		}
 		options.put("currency", currency);
-		if (outAmount > 0) {
-			options.put("outAmount", String.valueOf(outAmount));
+		if (outputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("outAmount", outputAmount.toString());
 		}
 		options.put("outCurrency", outCurrency);
 		if (callback != null) {
@@ -578,18 +590,21 @@ public class CoinapultClient {
 	 * @throws NoSuchAlgorithmException
 	 * @throws SignatureException
 	 */
-	public Transaction.Json lock(double amount, double outAmount,
+	public Transaction.Json lock(Number amount, Number outAmount,
 			String outCurrency, String callback) throws IOException,
 			InvalidKeyException, NoSuchProviderException,
 			NoSuchAlgorithmException, SignatureException {
 		String endpoint = "/api/t/lock";
 
+		BigDecimal inputAmount = new BigDecimal(amount.toString());
+		BigDecimal outputAmount = new BigDecimal(outAmount.toString());
+
 		Map<String, String> options = new HashMap<String, String>();
-		if (amount > 0) {
-			options.put("amount", String.valueOf(amount));
+		if (inputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("amount", inputAmount.toString());
 		}
-		if (outAmount > 0) {
-			options.put("outAmount", String.valueOf(outAmount));
+		if (outputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("outAmount", outputAmount.toString());
 		}
 		options.put("currency", outCurrency);
 		if (callback != null) {
@@ -624,19 +639,23 @@ public class CoinapultClient {
 	 * @throws NoSuchAlgorithmException
 	 * @throws SignatureException
 	 */
-	public Transaction.Json unlock(double amount, String inCurrency,
-			double outAmount, String address, String callback, boolean acceptNow)
+	public Transaction.Json unlock(Number amount, String inCurrency,
+			Number outAmount, String address, String callback,
+			boolean acceptNow)
 					throws IOException, InvalidKeyException, NoSuchProviderException,
 			NoSuchAlgorithmException, SignatureException {
 		String endpoint = "/api/t/unlock";
 
+		BigDecimal inputAmount = new BigDecimal(amount.toString());
+		BigDecimal outputAmount = new BigDecimal(outAmount.toString());
+
 		Map<String, String> options = new HashMap<String, String>();
-		if (amount > 0) {
-			options.put("amount", String.valueOf(amount));
+		if (inputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("amount", inputAmount.toString());
 		}
 		options.put("currency", inCurrency);
-		if (outAmount > 0) {
-			options.put("outAmount", String.valueOf(outAmount));
+		if (outputAmount.compareTo(BigDecimal.ZERO) > 0) {
+			options.put("outAmount", outputAmount.toString());
 		}
 		if (address != null) {
 			options.put("address", address);
