@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="Coinapult">
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <property name="src" location="Coinapult/src"/>
+    <property name="build" location="Coinapult/bin"/>
+    <property name="lib" location="lib"/>
+    <property name="dep" location="distrib_with_dependencies/coinapult_http_clientapi_lib"/>
+
+    <target name="init">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${lib}"/>
+        <copy todir="${lib}" flatten="true">
+            <fileset dir="${dep}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete dir="${lib}"/>
+    </target>
+
+    <path id="classpath">
+        <fileset dir="${lib}"/>
+    </path>
+
+    <target name="build" depends="init">
+        <javac destdir="${build}" includeantruntime="false" source="${source}" target="${target}">
+            <src path="${src}"/>
+            <classpath refid="classpath"/>
+        </javac>
+        <manifestclasspath property="list" jarfile="coinapult_http_api.jar">
+            <classpath refid="classpath"/>
+        </manifestclasspath>
+        <jar jarfile="coinapult_http_api.jar" basedir="${build}"
+             includes="com/coinapult/api/**">
+            <manifest>
+                <attribute name="Class-Path" value="${list}"/>
+            </manifest>
+        </jar>
+    </target>
+</project>
