@@ -1,22 +1,15 @@
 var crypto = require('crypto');
-var request = require('request'); /* @browserify: remove */
-//var jquery = require('jquery'); /* @browserify: add */
+var request = require('request');
 var jscrypto = require('jsrsasign');
 
 var COINAPULTPUB_PEM = "-----BEGIN PUBLIC KEY-----" +
-  "MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEhXHKa4ZXjEgSGEskEZdcgrx8Ye9qGHte" +
-  "RlkdhZwHU8xVGwJ08GMFcZwJoX5RVL2igLPgXjk6Un8nyqrGztyD5Q==" +
+  "MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEWp9wd4EuLhIZNaoUgZxQztSjrbqgTT0w" +
+  "LBq8RwigNE6nOOXFEoGCjGfekugjrHWHUi8ms7bcfrowpaJKqMfZXg==" +
   "-----END PUBLIC KEY-----";
 
 /* Auxiliary functions for sending signed requests to Coinapult. */
-function signParams(params, seckey) {
-  var sortk = Object.keys(params).sort();
-  var json_params = [];
-  for (var i = 0; i < sortk.length; i++) {
-    json_params.push('"' + sortk[i] + '":"' + params[sortk[i]] + '"');
-  }
-  json_params = '{' + json_params.join(',') + '}';
-  var sign = crypto.createHmac("sha512", seckey).update(json_params);
+function signData(data, seckey) {
+  var sign = crypto.createHmac("sha512", seckey).update(data);
   return sign.digest('hex');
 }
 
@@ -26,10 +19,10 @@ function prepareECC(params, pubkey, privkey) {
    */
   var headers = {};
 
-  if (params.accountCreate) {
+  if (params.newAccount) {
     /* Do not set a nonce when creating new account. */
     headers['cpt-ecc-new'] = new Buffer(pubkey.pem).toString('base64');
-    delete params.accountCreate;
+    delete params.newAccount;
   } else {
     headers['cpt-ecc-pub'] = pubkey.hash;
     params.nonce = genNonce();
@@ -45,7 +38,7 @@ function prepareECC(params, pubkey, privkey) {
   var signValRS = jscrypto.ECDSA.asn1SigToConcatSig(signVal);
   headers['cpt-ecc-sign'] = signValRS;
 
-  return [headers, {data: data}];
+  return [headers, data];
 }
 
 function receiveECC(content, cb) {
@@ -82,7 +75,11 @@ var VALID_SEARCH_KEYS = {
 module.exports = {
 
   genKeypair: function() {
-    return jscrypto.KEYUTIL.generateKeypair('EC', 'secp256k1');
+    var keypair = jscrypto.KEYUTIL.generateKeypair('EC', 'secp256k1');
+    return {
+      apiKey: keypair.pubKeyObj,
+      apiSecret: keypair.prvKeyObj
+    };
   },
 
   writePubkey: function(key) {
@@ -93,8 +90,13 @@ module.exports = {
     return jscrypto.KEYUTIL.getPEM(key, 'PKCS8PRV');
   },
 
-  loadKey: function(pkcs) {
-    return jscrypto.KEYUTIL.getKey(pkcs);
+  loadKeypair: function(privPEM, pubPEM) {
+    var priv = jscrypto.KEYUTIL.getKey(privPEM);
+    var pub = jscrypto.KEYUTIL.getKey(pubPEM);
+    return {
+      apiKey: pub,
+      apiSecret: priv
+    };
   },
 
   create: function(options) {
@@ -120,47 +122,47 @@ module.exports = {
 
     return {
 
-      signParams: signParams,
+      signData: signData,
 
       /* Make a call to the Coinapult API. */
       call: function(method, params, sign, post, cb) {
-        var headers = {};
+        var data, headers = {};
         if (sign) {
           if (options.ecc) {
             var result;
             result = prepareECC(params, pubkey, privkey);
             headers = result[0];
-            params = result[1];
+            data = result[1];
           } else {
             params.nonce = genNonce();
             params.timestamp = (new Date().getTime() / 1000).toString();
+            params.endpoint = '/' + method;
+            data = new Buffer(JSON.stringify(params)).toString('base64');
             headers = {
               'cpt-key':  options.apiKey,
-              'cpt-hmac': signParams(params, options.apiSecret)
+              'cpt-hmac': signData(data, options.apiSecret)
             };
           }
+        } else {
+          data = '';
         }
 
         var reqopts = {
-          url: options.baseURL + method, /* @browserify: remove */
-          form: params, /* @browserify: remove */
-          //data: params, /* @browserify: add */
+          url: options.baseURL + method,
+          form: {data: data},
           headers: headers,
           method: post ? 'POST' : 'GET',
         };
-        request(reqopts, cb); /* @browserify: remove */
-        /* @browserify: add-begin */
-        //jquery.ajax(options.baseURL + method, reqopts).done(function(data, status, req) {
-        //  /* Compatibility with the 'requests' module. */
-        //  cb(null, req, data);
-        //});
-        /* @browserify: add-end */
+        if (!post) {
+          reqopts.qs = params;
+        }
+        request(reqopts, cb);
       },
 
 
       /* Coinapult API */
 
-      ticker: function(cb, begin, end) {
+      ticker: function(cb, market, begin, end) {
         var params = {};
         if (typeof begin != 'undefined') {
           params.begin = begin;
@@ -168,12 +170,19 @@ module.exports = {
         if (typeof end != 'undefined') {
           params.end = end;
         }
+        if (typeof market != 'undefined') {
+          params.market = market;
+        }
 
         this.call('ticker', params, false, false, cb);
       },
 
-      accountInfo: function(cb) {
-        this.call('accountInfo', {}, true, true, cb);
+      accountInfo: function(cb, balanceType) {
+        var params = {};
+        if (typeof balanceType != 'undefined') {
+          params.balanceType = balanceType;
+        }
+        this.call('accountInfo', params, true, true, cb);
       },
 
       getBitcoinAddress: function(cb) {
@@ -297,12 +306,39 @@ module.exports = {
         this.call('t/unlock', params, true, true, cb);
       },
 
+      activateAccount: function(cb, agree, pubhash) {
+        var params = {'newAccount': true, 'agree': agree};
+        if (typeof pubhash != 'undefined') {
+          params.hash = pubhash;
+        } else {
+          params.hash = pubkey.hash;
+        }
+
+        this.call('account/activate', params, true, true, function (err, req, ret) {
+          if (err) {
+            console.log(err);
+          } else {
+            var data = JSON.parse(ret);
+            if (!data.error) {
+              receiveECC(data, function(rdata) {
+                if (cb) {
+                  cb(null, req, rdata);
+                }
+              });
+            } else {
+              if (cb) {
+                cb(data.error, req, null);
+              }
+            }
+          }
+        });
+      },
+
       accountCreate: function(cb) {
-        var params = {'accountCreate': true};
+        var params = {'newAccount': true};
         this.call('account/create', params, true, true, function (err, req, ret) {
           if (!err) {
-            var data = JSON.parse(ret); /* @browserify: remove */
-            //var data = ret; /* @browserify: add */
+            var data = JSON.parse(ret);
             if (!data.error) {
               var error;
               receiveECC(data, function(rdata) {
