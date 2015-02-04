@@ -372,7 +372,7 @@ def generate_ECC_sign(data, privkey)
   hmsg = OpenSSL::Digest::SHA256.digest(data)
   sign = OpenSSL::ASN1.decode(privkey.dsa_sign_asn1(hmsg))
   # Encode the signature as the r and s values.
-  "#{sign.value[0].value.to_s(16)}#{sign.value[1].value.to_s(16)}"
+  "#{sign.value[0].value.to_s(16)}|#{sign.value[1].value.to_s(16)}"
 end
 
 def verify_ECC_sign(signstr, origdata, pubkey)

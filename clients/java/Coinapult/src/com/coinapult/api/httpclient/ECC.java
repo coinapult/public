@@ -56,7 +56,7 @@ public class ECC {
 		BigInteger s = ((ASN1Integer) seq.getObjectAt(1)).getValue();
 		decoder.close();
 
-		String signature = r.toString(16) + s.toString(16);
+		String signature = r.toString(16) + "|" + s.toString(16);
 		return signature;
 	}
 
