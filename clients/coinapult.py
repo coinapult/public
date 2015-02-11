@@ -19,7 +19,7 @@ try:
 except ImportError:
     print "authentication through ECC not available"
 
-__version__ = "2.02"
+__version__ = "2.03"
 
 
 ECC_COINAPULT_PUB = """\
@@ -436,6 +436,12 @@ class CoinapultClient():
         """generate a new bitcoin address"""
         url = '/api/getBitcoinAddress/'
         return self.sendToCoinapult(url, {}, sign=True)
+
+    def configAddress(self, address, **kwargs):
+        url = '/api/address/config'
+        values = {'address': address}
+        values.update(kwargs)
+        return self.sendToCoinapult(url, values, sign=True)
 
     def accountInfo(self, balanceType='all', locksAsBTC=False, **kwargs):
         """account info"""
