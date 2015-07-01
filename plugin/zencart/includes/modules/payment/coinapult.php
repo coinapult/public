@@ -166,7 +166,7 @@ class coinapult
 
       $_SESSION['cart']->reset(true);
       $this->_log("redirecting..");
-//      zen_redirect(zen_href_link('account'));
+      zen_redirect("https://coinapult.com/invoice/" . $tid);
     }
 
     return false;
@@ -250,7 +250,7 @@ class coinapult
     $db->Execute("INSERT INTO " . TABLE_CONFIGURATION . " (configuration_title,
       configuration_key, configuration_value, configuration_description,
       configuration_group_id, sort_order, set_function, use_function, date_added) VALUES
-      ('Set new order tatus', 'MODULE_PAYMENT_COINAPULT_ORDERNEW_ID', '0',
+      ('Set new order status', 'MODULE_PAYMENT_COINAPULT_ORDERNEW_ID', '1',
       'Set the status of new orders made with this payment module to this value', '6', '0',
       'zen_cfg_pull_down_order_statuses(', 'zen_get_order_status_name', now())");
     /* COINAPULT_ORDERPAID_ID */
