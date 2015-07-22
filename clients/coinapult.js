@@ -206,7 +206,7 @@ module.exports = {
       },
 
       receive: function(cb, amount, outAmount, address, inCurrency, outCurrency, extOID, urlCallback) {
-        var params = {'amount': amount};
+        var params = {};
         if (typeof amount != 'undefined') {
           params.amount = amount;
         } else if (typeof outAmount != 'undefined') {
