@@ -113,7 +113,7 @@ module.exports = {
 
     if (options.ecc) {
       var privkey = options.apiSecret;
-      pubkey.key = options.apikey;
+      pubkey.key = options.apiKey;
       pubkey.pem = jscrypto.KEYUTIL.getPEM(options.apiKey).trim();
       var md = new jscrypto.MessageDigest({alg: 'sha256', prov: 'cryptojs'});
       md.updateString(pubkey.pem);
@@ -205,8 +205,13 @@ module.exports = {
         this.call('t/send', params, true, true, cb);
       },
 
-      receive: function(cb, amount, address, inCurrency, outCurrency, extOID, urlCallback) {
+      receive: function(cb, amount, outAmount, address, inCurrency, outCurrency, extOID, urlCallback) {
         var params = {'amount': amount};
+        if (typeof amount != 'undefined') {
+          params.amount = amount;
+        } else if (typeof outAmount != 'undefined') {
+          params.outAmount = outAmount;
+        }
         if (typeof address != 'undefined') {
           params.address = address;
         }
