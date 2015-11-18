@@ -63,8 +63,8 @@ class CoinapultClient():
         self.authmethod = authmethod
 
         if credentials:
-            self.key = credentials['key']
-            self.secret = credentials['secret']
+            self.key = str(credentials['key'])
+            self.secret = str(credentials['secret'])
         self.baseURL = baseURL
         if ecc and ecdsa:
             self._setupECCPair((ecc['privkey'], ecc['pubkey']))
@@ -272,18 +272,22 @@ class CoinapultClient():
         else:
             raise CoinapultError("unknown response from Coinapult")
 
-    def convert(self, amount, inCurrency='USD', outCurrency='BTC', **kwargs):
+    def convert(self, amount, inCurrency='USD', outAmount=0, outCurrency='BTC', **kwargs):
         """Convert balance from one currency to another."""
+        url = '/api/t/convert/'
 
-        if amount is None or amount <= 0:
-            raise CoinapultError('invalid amount')
-        elif inCurrency == outCurrency:
+        if inCurrency == outCurrency:
             raise CoinapultError('cannot convert currency to itself')
 
-        url = '/api/t/convert/'
-        values = {'amount': amount,
-                  'currency': inCurrency,
-                  'outCurrency': outCurrency}
+        values = {}
+        gotInAmount, gotOutAmount = validateAmounts(amount, outAmount)
+        if gotInAmount:
+            values['amount'] = amount
+        if gotOutAmount:
+            values['outAmount'] = outAmount
+
+        values['currency'] = inCurrency
+        values['outCurrency'] = outCurrency
         resp = self.sendToCoinapult(url, values, sign=True)
         if 'transaction_id' in resp:
             return resp
@@ -331,33 +335,65 @@ class CoinapultClient():
         """Lock a certain amount of bitcoins to another currency."""
         url = '/api/t/lock/'
 
-        gotInAmount, gotOutAmount = False, False
-        try:
-            if amount:
-                gotInAmount = True
-                if float(str(amount)) <= 0:
-                    raise CoinapultError("amount must be positive")
-            if outAmount:
-                gotOutAmount = True
-                if float(str(outAmount)) <= 0:
-                    raise CoinapultError("outAmount must be positive")
-        except ValueError:
-            raise CoinapultError("amount must be a number")
-
-        if not gotInAmount and not gotOutAmount:
-            raise CoinapultError("no amount specified")
-        if gotInAmount and gotOutAmount:
-            raise CoinapultError("specify either the input amount or "
-                                 "the output amount")
-
-        values = {}
+        values = {'currency': currency}
+        gotInAmount, gotOutAmount = validateAmounts(amount, outAmount)
         if gotInAmount:
             values['amount'] = amount
         if gotOutAmount:
             values['outAmount'] = outAmount
         if callback:
             values['callback'] = callback
-        values['currency'] = currency
+
+        resp = self.sendToCoinapult(url, values, sign=True)
+        if 'transaction_id' in resp:
+            return resp
+        else:
+            raise CoinapultError("unknown response from Coinapult")
+
+    def lockFor(self, amount, recipient, outAmount=0, currency='USD',
+                callback=None, **kwargs):
+        """Lock a certain amount of bitcoins to another currency for another user."""
+        url = '/api/t/lock/for'
+
+        values = {'currency': currency, 'recipient': recipient}
+        gotInAmount, gotOutAmount = validateAmounts(amount, outAmount)
+        if gotInAmount:
+            values['amount'] = amount
+        if gotOutAmount:
+            values['outAmount'] = outAmount
+        if callback:
+            values['callback'] = callback
+        if 'create' in kwargs:
+            values['create'] = '1' if kwargs['create'] else '0'
+        if 'code' in kwargs:
+            values['code'] = kwargs['code']
+
+        resp = self.sendToCoinapult(url, values, sign=True)
+        if 'transaction_id' in resp:
+            return resp
+        else:
+            raise CoinapultError("unknown response from Coinapult")
+
+    def lockPayFor(self, transaction_id, recipient=None):
+        """Pay a Lock using your Coinapult balance."""
+        url = '/api/t/lock/pay'
+
+        values = {'transaction_id': transaction_id}
+        if recipient:
+            values['recipient'] = recipient
+        resp = self.sendToCoinapult(url, values, sign=True)
+        if 'transaction_id' in resp:
+            return resp
+        else:
+            raise CoinapultError("unknown response from Coinapult")
+
+    def lockTransfer(self, recipient, amount, callback=None, **kwargs):
+        """Transfer a portion of your Locks balance to another user."""
+        url = '/api/t/lock/transfer'
+
+        values = {'recipient': recipient, 'amount': json.dumps(amount)}
+        if callback:
+            values['callback'] = callback
 
         resp = self.sendToCoinapult(url, values, sign=True)
         if 'transaction_id' in resp:
@@ -370,26 +406,8 @@ class CoinapultClient():
         """Unlock a certain amount in a given currency to get bitcoins back."""
         url = '/api/t/unlock/'
 
-        gotInAmount, gotOutAmount = False, False
-        try:
-            if amount:
-                gotInAmount = True
-                if float(str(amount)) <= 0:
-                    raise CoinapultError("amount must be positive")
-            if outAmount:
-                gotOutAmount = True
-                if float(str(outAmount)) <= 0:
-                    raise CoinapultError("outAmount must be positive")
-        except ValueError:
-            raise CoinapultError("amount must be a number")
-
-        if not gotInAmount and not gotOutAmount:
-            raise CoinapultError("no amount specified")
-        if gotInAmount and gotOutAmount:
-            raise CoinapultError("specify either the input amount or "
-                                 "the output amount")
-
         values = {'currency': currency, 'acceptNow': acceptNow}
+        gotInAmount, gotOutAmount = validateAmounts(amount, outAmount)
         if gotInAmount:
             values['amount'] = amount
         if gotOutAmount:
@@ -454,6 +472,14 @@ class CoinapultClient():
         """Check if an address belongs to your account."""
         url = '/api/accountInfo/address'
         return self.sendToCoinapult(url, {'address': address}, sign=True)
+
+    def updateEmail(self, email, setPrimary=True, verify=None):
+        """Updated the notification email address for your account."""
+        url = '/api/accountInfo/email'
+        args = {'email': email, 'setPrimary': setPrimary}
+        if verify is not None:
+            args['verify'] = verify
+        return self.sendToCoinapult(url, args, sign=True)
 
     def authenticateCallback(self, recvKey, recvSign, recvData, **kwargs):
         """Utility for validating a received message.
@@ -527,3 +553,31 @@ def generateHmac(message, secret):
 def createNonce(length=20):
     """Generate a pseudo-random nonce."""
     return os.urandom(length / 2).encode('hex')
+
+
+def validateAmounts(amount, outAmount):
+    """
+    Check that only one between amount and outAmount has been specified
+    and is positive.
+    """
+    gotInAmount, gotOutAmount = False, False
+
+    try:
+        if amount:
+            gotInAmount = True
+            if float(str(amount)) <= 0:
+                raise CoinapultError("amount must be positive")
+        if outAmount:
+            gotOutAmount = True
+            if float(str(outAmount)) <= 0:
+                raise CoinapultError("outAmount must be positive")
+    except ValueError:
+        raise CoinapultError("amount must be a number")
+
+    if not gotInAmount and not gotOutAmount:
+        raise CoinapultError("no amount specified")
+    if gotInAmount and gotOutAmount:
+        raise CoinapultError("specify either the input amount or "
+                             "the output amount")
+
+    return gotInAmount, gotOutAmount
